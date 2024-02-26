@@ -1,4 +1,4 @@
-
+import "./index.css"
 const pizzaData = [
   {
     name: "Focaccia",
@@ -47,36 +47,61 @@ const pizzaData = [
 function App() {
 
   return (
-    <div className="App">
+    <div className="container">
       <Header/>
-      <Pizza/>
+      <Menu/>
       <Footer/>
     </div>
   );
 }
 
+function Menu(){
+  return (
+    <div className="menu">
+      <h2>Our menu</h2>
+      {pizzaData.map((pizza)=>(
+        <Pizza className="pizza" info={pizza}></Pizza>
+      ))}
+      
+    </div>
+  )
+}
+
+function Pizza(props){
+  console.log(props.info)
+  return (
+    <>
+      <div className="pizza">
+        <img src={props.info?.photoName} alt="Pizza img"></img>
+        <div>
+          <h3>{props.info.name}</h3>
+          <p>{props.info.ingredients}</p>
+          <span>{props.info.price}</span>
+        </div>
+      </div>
+    </>
+  )
+}
 function Header(){
   return <>
-    <h1>
-      This is Header
-    </h1>
+    <header className="header">
+      <h1>Fast React Pizza Co.</h1>
+    </header>
   </>
 }
 
 function Footer(){
+  const hour = new Date().getHours();
+  const openHour= 8;
+  const closeHour=22;
+  const isOpen =  hour >=openHour && hour <=closeHour ;
   return (<>
-    <h1>
-      This is Footer
-    </h1>
+    <footer className="footer">
+      {new Date().toLocaleDateString()}.{isOpen?"We're currently open":"We're closed"} 
+    </footer>
   </>)
 }
 
-function Pizza(){
-  return (
-    <>
-      <div>Pizza</div>
-    </>
-  )
-}
+
 
 export default App;
