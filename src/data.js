@@ -1,4 +1,3 @@
-
 const pizzaData = [
   {
     name: "Focaccia",
@@ -43,14 +42,3 @@ const pizzaData = [
     soldOut: false,
   },
 ];
-
-function App() {
-
-  return (
-    <div className="App">
-      <div>{pizzaData[0]?.name}</div>
-    </div>
-  );
-}
-
-export default App;
