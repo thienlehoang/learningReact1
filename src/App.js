@@ -48,9 +48,35 @@ function App() {
 
   return (
     <div className="App">
-      <div>{pizzaData[0]?.name}</div>
+      <Header/>
+      <Pizza/>
+      <Footer/>
     </div>
   );
+}
+
+function Header(){
+  return <>
+    <h1>
+      This is Header
+    </h1>
+  </>
+}
+
+function Footer(){
+  return (<>
+    <h1>
+      This is Footer
+    </h1>
+  </>)
+}
+
+function Pizza(){
+  return (
+    <>
+      <div>Pizza</div>
+    </>
+  )
 }
 
 export default App;
