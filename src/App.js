@@ -72,7 +72,7 @@ function Pizza(props){
   return (
     <>
       <div className="pizza">
-        <img src={props.info?.photoName} alt="Pizza img"></img>
+        <img src={props.info?.photoName} alt={props.info.name}></img>
         <div>
           <h3>{props.info.name}</h3>
           <p>{props.info.ingredients}</p>
