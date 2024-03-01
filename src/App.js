@@ -56,14 +56,20 @@ function App() {
 }
 
 function Menu(){
+  const pizzas = pizzaData;
+
   return (
     <div className="menu">
       <h2>Our menu</h2>
-      <ul className="pizzas">
-        {pizzaData.map((pizza)=>(
-          <Pizza className="pizza" info={pizza}></Pizza>
-        ))}
-      </ul>
+      {
+        pizzas && (
+          <ul className="pizzas">
+            {pizzaData.map((pizza)=>(
+              <Pizza className="pizza" info={pizza}></Pizza>
+            ))}
+          </ul>
+        )
+      }
       
     </div>
   )
@@ -99,7 +105,7 @@ function Footer(){
   return (<>
         <footer className="footer">
       {
-        isOpen==true ? (
+        isOpen ? (
           <div className="order">
             <p>
               We're open until {closeHour}:00. Come visit us or order online.
@@ -111,7 +117,7 @@ function Footer(){
             <p>
               We're closed until {openHour}:00. Come visit us later.
             </p>
-            <button className="btn btn-disabled">Order later after {openHour}</button>
+            <button disabled="true" className="btn btn-disabled">Order later between {openHour} and {closeHour}</button>
           </div>
         )
       }
