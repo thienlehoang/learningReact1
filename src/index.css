@@ -110,6 +110,8 @@ body {
   gap: 3.2rem;
   &:hover{
     cursor: pointer;
+    transform: scale(1.05);
+    transition: all 0.25s linear;
   }
 }
 
@@ -183,6 +185,9 @@ body {
 
 .btn:hover {
   background-color: #e9bb24;
+  transform: scale(1.1);
+  transition-delay: .2s;
+  transition: all .25s linear;
 }
 
 /*
