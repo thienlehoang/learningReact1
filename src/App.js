@@ -1,4 +1,5 @@
 import "./index.css"
+import { ReactFragment } from 'react';
 const pizzaData = [
   {
     name: "Focaccia",
@@ -63,11 +64,14 @@ function Menu(){
       <h2>Our menu</h2>
       {
         pizzas && (
-          <ul className="pizzas">
-            {pizzaData.map((pizza)=>(
-              <Pizza className="pizza" info={pizza}></Pizza>
-            ))}
-          </ul>
+          <>
+            <p>Authentic Italian cuisine. 6 creative dishes to choose from. All from our stone oven, all organic, all delicious.</p>
+            <ul className="pizzas">
+              {pizzaData.map((pizza)=>(
+                <Pizza className="pizza" info={pizza}></Pizza>
+              ))}
+            </ul>
+          </>
         )
       }
       
@@ -78,7 +82,7 @@ function Menu(){
 function Pizza(props){
   return (
     <>
-      <li className="pizza">
+      <li className={`pizza ${props.info.soldOut ? "sold-out" : ""}`}>
         <img src={props.info?.photoName} alt={props.info.name}></img>
         <div>
           <h3>{props.info.name}</h3>
