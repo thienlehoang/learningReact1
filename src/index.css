@@ -108,6 +108,9 @@ body {
 .pizza {
   display: flex;
   gap: 3.2rem;
+  &:hover{
+    cursor: pointer;
+  }
 }
 
 .pizza img {
