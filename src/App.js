@@ -1,5 +1,7 @@
+import Card from "./components/Card/Card";
 import "./index.css"
 import { ReactFragment } from 'react';
+//import  from './components/Card'
 const pizzaData = [
   {
     name: "Focaccia",
@@ -51,6 +53,7 @@ function App() {
     <div className="container">
       <Header/>
       <Menu/>
+      <Card></Card>
       <Footer/>
     </div>
   );
