@@ -116,9 +116,10 @@ body {
 }
 
 .pizza img {
-  width: 12rem;
+  width: 15rem;
   aspect-ratio: 1;
   align-self: start;
+  object-fit: cover;
 }
 
 .pizza div {

@@ -1,0 +1,15 @@
+.pagiStep{
+  border: 2px solid transparent;
+  border-radius: 30px;
+  background: grey;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 10px;
+  &:hover{
+    cursor: pointer;
+    background-color: #edc84b;
+  }
+}
+.active{
+  background-color: #edc84b;
+}
