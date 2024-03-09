@@ -1,4 +1,7 @@
 import Card from "./components/Card/Card";
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
+import Menu from "./components/Menu/Menu";
 import "./index.css"
 import { ReactFragment } from 'react';
 //import  from './components/Card'
@@ -53,92 +56,14 @@ function App() {
     <div className="container">
       <Header/>
       <Menu/>
-      <Card></Card>
       <Footer/>
     </div>
   );
 }
 
-function Menu(){
-  const pizzas = pizzaData;
 
-  return (
-    <div className="menu">
-      <h2>Our menu</h2>
-      {
-        pizzas && (
-          <>
-            <p>Authentic Italian cuisine. 6 creative dishes to choose from. All from our stone oven, all organic, all delicious.</p>
-            <ul className="pizzas">
-              {pizzaData.map((pizza)=>(
-                <Pizza className="pizza" info={pizza}></Pizza>
-              ))}
-            </ul>
-          </>
-        )
-      }
-      
-    </div>
-  )
-}
 
-function Pizza(props){
-  return (
-    <>
-      <li className={`pizza ${props.info.soldOut ? "sold-out" : ""}`}>
-        <img src={props.info?.photoName} alt={props.info.name}></img>
-        <div>
-          <h3>{props.info.name}</h3>
-          <p>{props.info.ingredients}</p>
-          <span>{props.info.price}</span>
-        </div>
-      </li>
-    </>
-  )
-}
-function Header(){
-  return <>
-    <header className="header">
-      <h1>Fast React Pizza Co</h1>
-    </header>
-  </>
-}
 
-function Footer(){
-  const hour = new Date().getHours();
-  const openHour= 8;
-  const closeHour=20;
-  const isOpen =  hour >=openHour && hour <=closeHour ;
-  return (<>
-        <footer className="footer">
-      {
-        isOpen ? (
-          <Order closeHour={closeHour} openHour={openHour}></Order>
-        ) : (
-          <div className="order">
-            <p>
-              We're closed until {openHour}:00. Come visit us later.
-            </p>
-            <button disabled="true" className="btn btn-disabled">Order later between {openHour} and {closeHour}</button>
-          </div>
-        )
-      }
-    </footer>
-  </>)
-}
-
-function Order({closeHour,openHour}){
-  return (
-    <>
-      <div className="order">
-        <p>
-          We're open from {openHour}:00  to {closeHour}:00. Come visit us or order online.
-        </p>
-        <button className="btn">Order</button>
-      </div>
-    </>
-  )
-}
 
 
 
