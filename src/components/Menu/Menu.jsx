@@ -4,16 +4,25 @@ import { pizzaData } from '../../data';
 import './Menu.css'
 
 export default function Menu(){
-  const pizzas = pizzaData;
-  const [isLoading,setIsLoading]=useState(true)
+  //const pizzas = pizzaData;
+  const [pizzas,setPizzas]=useState(pizzaData)
+  const [isLoading,setIsLoading]=useState(true);
+  const [page,setPage] = useState(1);
   useEffect(()=>{
     setTimeout(()=>{
       setIsLoading(false);
-    },2000)
+    },2000);
+    let a= pizzaData.slice((page-1)*10,(page-1)*10+10);
+    setPizzas(a);
   },[])
   useEffect(()=>{
-    
-  },[])
+    let a= pizzaData.slice((page-1)*10,(page-1)*10+10);
+    setPizzas(a);
+  },[page]);
+  function handlePage(page){
+    console.log(page);
+    setPage(page);
+  }
   return (
     <>
       {
@@ -37,7 +46,7 @@ export default function Menu(){
               </>
             )
           }
-          <Pagination list={pizzaData}></Pagination>
+          <Pagination handlePage={handlePage} total={pizzaData.length}></Pagination>
         </div>
         )
       }
@@ -45,15 +54,20 @@ export default function Menu(){
   )
 }
 
-function Pagination(props){
+function Pagination({handlePage,total}){
   const [page,setPage]= useState(1);
   const [totalPage,setTotalPage]=useState([]);
-  const itemPerPage=10;
-  const {list}=props;
-  const array=[1,2,3]
+  const [array,setArray]=useState([]);
   const handleClick=(e)=>{
+    e.preventDefault();
+    handlePage(e.target.innerText);
     setPage(e.target.innerText);
   }
+  useEffect(()=>{
+    for(let i=0;i<total.length;i++){
+      setArray(...array,{});
+    }
+  },[total])
   return (
     <>
       <ul className='pagiList'>
