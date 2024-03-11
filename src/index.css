@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: all .2s linear;
 }
 
 html {
@@ -22,6 +23,7 @@ body {
 }
 
 .container {
+  position: relative;
   max-width: 80rem;
   margin: 0 auto;
 
@@ -120,6 +122,7 @@ body {
   aspect-ratio: 1;
   align-self: start;
   object-fit: cover;
+  border-radius: 5px;
 }
 
 .pizza div {
@@ -178,6 +181,7 @@ body {
   padding: 1.4rem 3.2rem;
   cursor: pointer;
   transition: all 0.2s;
+  border-radius: 5px;
 }
 .btn.btn-disabled{
   color: grey;
