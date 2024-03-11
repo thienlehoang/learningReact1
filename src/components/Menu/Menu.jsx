@@ -17,10 +17,13 @@ export default function Menu(){
   },[])
   useEffect(()=>{
     let a= pizzaData.slice((page-1)*10,(page-1)*10+10);
+    setIsLoading(true);
+    setTimeout(()=>{
+      setIsLoading(false);
+    },1000);
     setPizzas(a);
   },[page]);
-  function handlePage(page){
-    console.log(page);
+  function handlePageParent(page){
     setPage(page);
   }
   return (
@@ -46,7 +49,7 @@ export default function Menu(){
               </>
             )
           }
-          <Pagination handlePage={handlePage} total={pizzaData.length}></Pagination>
+          <Pagination page={page} handlePage={handlePageParent} total={pizzaData.length}></Pagination>
         </div>
         )
       }
@@ -54,29 +57,30 @@ export default function Menu(){
   )
 }
 
-function Pagination({handlePage,total}){
-  const [page,setPage]= useState(1);
-  const [totalPage,setTotalPage]=useState([]);
+function Pagination({handlePage,total,page}){
   const [array,setArray]=useState([]);
   const handleClick=(e)=>{
     e.preventDefault();
     handlePage(e.target.innerText);
-    setPage(e.target.innerText);
   }
   useEffect(()=>{
-    for(let i=0;i<total.length;i++){
-      setArray(...array,{});
+    let a=[];
+    for(let i=0;i<=total/10;i++){
+      a=[...a,{}];
     }
+    setArray(a);
   },[total])
   return (
     <>
       <ul className='pagiList'>
         {
-          array.map((value,index)=>(
-            <button className={`pagiStep `+ ( page ==(index+1) ? 'active' : '' )} onClick={handleClick} >
-              {index+1}
-            </button>
-          ))
+          array.length>0 &&(
+            array.map((value,index)=>(
+              <button className={`pagiStep `+ ( page ==(index+1) ? 'active' : '' )} onClick={handleClick} >
+                {index+1}
+              </button>
+            ))
+          )
         }
       </ul>
     </>

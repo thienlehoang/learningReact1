@@ -1,3 +1,4 @@
+import './Footer.css'
 export default function Footer(){
   const hour = new Date().getHours();
   const openHour= 8;
