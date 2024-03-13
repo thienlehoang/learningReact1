@@ -88,3 +88,10 @@ export const pizzaData = [
     soldOut: false,
   },
 ];
+
+export var likeList = [
+  {
+    id:1,
+    idPizza:1,
+  },
+];
