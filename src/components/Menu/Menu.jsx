@@ -6,9 +6,7 @@ import "./Menu.css";
 
 export default function Menu() {
   //const pizzas = pizzaData;
-  console.log(likeList);
   const [pizzas, setPizzas] = useState(pizzaData);
-  const [likedList, setLikeList] = useState(likeList);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const itemPerPage = 10;
@@ -36,10 +34,7 @@ export default function Menu() {
   function handlePageParent(page) {
     setPage(page);
   }
-  function handleLikeList(removeId){
-    let newList = likedList.filter((item)=>item.id!=removeId)
-    setLikeList(newList);
-  }
+
   return (
     <>
       <div className="menu">
@@ -76,51 +71,66 @@ export default function Menu() {
           total={pizzaData.length}
         ></Pagination>
 
-        {likedList.length > 0 && (
-          <>
-            <ul className="pizzas">
-              {likedList.map((item) => (
-                <>
-                  <PizzaLikeCard
-                    key={item.id}
-                    pizzaId={item.idPizza}
-                    removeLike={handleLikeList}
-                  ></PizzaLikeCard>
-                </>
-              ))}
-            </ul>
-          </>
-        )}
+        <PizzaLikeList likeList={likeList}></PizzaLikeList>
       </div>
     </>
   );
 }
 
-export function PizzaLikeCard({pizzaId,removeLike}) {
-  const [info,setInfo]=useState({});
-  useEffect(()=>{
-    let array = pizzaData.filter(pizza=>pizza.id==pizzaId);
+export function PizzaLikeList({ likeList }) {
+  const [likedList, setLikeList] = useState(likeList);
+  function handleLikeList(removeId) {
+    let newList = likedList.filter((item) => item.id != removeId);
+    setLikeList(newList);
+  }
+  return (
+    <>
+      {likedList.length > 0 && (
+        <>
+          <ul className="pizzas">
+            {likedList.map((item) => (
+              <>
+                <PizzaLikeCard
+                  key={item.id}
+                  pizzaId={item.idPizza}
+                  removeLike={handleLikeList}
+                ></PizzaLikeCard>
+              </>
+            ))}
+          </ul>
+        </>
+      )}
+    </>
+  );
+}
+
+export function PizzaLikeCard({ pizzaId, removeLike }) {
+  const [info, setInfo] = useState({});
+  useEffect(() => {
+    let array = pizzaData.filter((pizza) => pizza.id == pizzaId);
     setInfo(array[0]);
-  },[])
-  function handleRemove(){
+  }, []);
+  function handleRemove() {
     removeLike(pizzaId);
   }
   return (
-      <>
+    <>
       <li key={info?.id} className={`pizza ${info?.soldOut ? "sold-out" : ""}`}>
-        <div className='pizza__left'>
+        <div className="pizza__left">
           <img src={info.photoName} alt={info.name}></img>
-          <AiOutlineDislike className="likeIcon"  onClick={handleRemove}></AiOutlineDislike>
-          
+          <AiOutlineDislike
+            className="likeIcon"
+            onClick={handleRemove}
+          ></AiOutlineDislike>
         </div>
-        <div className='pizza__right'>
+        <div className="pizza__right">
           <h3>{info?.name}</h3>
           <p>{info?.ingredients}</p>
           <span>{info?.price}</span>
         </div>
       </li>
     </>
-  )
+  );
 }
 
 function Pagination({ handlePage, total, page, itemPerPage }) {
