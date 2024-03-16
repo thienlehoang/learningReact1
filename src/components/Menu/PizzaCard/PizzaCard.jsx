@@ -2,13 +2,19 @@ import React, { useState } from 'react'
 import "./PizzaCard.css"
 import { FcLike } from "react-icons/fc";
 import { AiOutlineLike } from "react-icons/ai";
+import { useDispatch } from 'react-redux';
 //import { FcLike } from "react-icons/fc";
 export default function PizzaCard(props) {
   const {info} =  props;
   const [like,setLike]=useState(false);
+  const dispatch = useDispatch();
   function handleLike(e){
     e.preventDefault();
     setLike((prev)=>!prev);
+    dispatch({
+      type:'addlikelist',
+      payload:info.id
+    })
   }
   return (
       <>

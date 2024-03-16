@@ -91,7 +91,6 @@ export const pizzaData = [
 
 export var likeList = [
   {
-    id:1,
     idPizza:1,
   },
 ];
