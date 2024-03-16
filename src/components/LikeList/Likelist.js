@@ -6,11 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 export default function PizzaLikeList({ }) {
   //const [likedList, setLikeList] = useState(likeList);
   const likelist = useSelector((state)=>state.likelist);
-  console.log(likelist);
   const dispatch = useDispatch();
   function handleLikeList(removeId) {
-    //let newList = likedList.filter((item) => item.id != removeId);
-    //setLikeList(newList);
     dispatch({
       type:'deletelikelist',
       id:removeId
@@ -42,7 +39,7 @@ export function LikeItem({ pizzaId, removeLike }) {
   useEffect(() => {
     let array = pizzaData.filter((pizza) => pizza.id == pizzaId);
     setInfo(array[0]);
-  }, []);
+  }, [pizzaId]);
   function handleRemove() {
     removeLike(pizzaId);
   }
