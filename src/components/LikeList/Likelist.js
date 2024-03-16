@@ -49,7 +49,7 @@ export function LikeItem({ pizzaId, removeLike }) {
         <div className="pizza__left">
           <img src={info.photoName} alt={info.name}></img>
           <AiOutlineDislike
-            className="likeIcon"
+            className="likeIcon like"
             onClick={handleRemove}
           ></AiOutlineDislike>
         </div>

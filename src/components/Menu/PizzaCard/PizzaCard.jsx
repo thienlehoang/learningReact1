@@ -27,8 +27,8 @@ export default function PizzaCard(props) {
           <img src={info.photoName} alt={info.name}></img>
           {
             like ? 
-            <FcLike className='likeIcon' onClick={(e)=>handleLike(e)} /> : 
-            <AiOutlineLike className='likeIcon' onClick={(e)=>handleLike(e)}></AiOutlineLike>
+            <FcLike style={{opacity:.8}} className='likeIcon' onClick={(e)=>handleLike(e)} /> : 
+            <AiOutlineLike  className='likeIcon like' onClick={(e)=>handleLike(e)}></AiOutlineLike>
           }
           
         </div>
