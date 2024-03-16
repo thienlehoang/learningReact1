@@ -3,6 +3,7 @@ import PizzaCard from "./PizzaCard/PizzaCard";
 import { pizzaData, likeList } from "../../data";
 import { AiOutlineDislike } from "react-icons/ai";
 import "./Menu.css";
+import PizzaLikeList from "../LikeList/Likelist";
 
 export default function Menu() {
   //const pizzas = pizzaData;
@@ -71,67 +72,13 @@ export default function Menu() {
           total={pizzaData.length}
         ></Pagination>
 
-        <PizzaLikeList likeList={likeList}></PizzaLikeList>
+        <PizzaLikeList></PizzaLikeList>
       </div>
     </>
   );
 }
 
-export function PizzaLikeList({ likeList }) {
-  const [likedList, setLikeList] = useState(likeList);
-  function handleLikeList(removeId) {
-    let newList = likedList.filter((item) => item.id != removeId);
-    setLikeList(newList);
-  }
-  return (
-    <>
-      {likedList.length > 0 && (
-        <>
-          <ul className="pizzas">
-            {likedList.map((item) => (
-              <>
-                <PizzaLikeCard
-                  key={item.id}
-                  pizzaId={item.idPizza}
-                  removeLike={handleLikeList}
-                ></PizzaLikeCard>
-              </>
-            ))}
-          </ul>
-        </>
-      )}
-    </>
-  );
-}
 
-export function PizzaLikeCard({ pizzaId, removeLike }) {
-  const [info, setInfo] = useState({});
-  useEffect(() => {
-    let array = pizzaData.filter((pizza) => pizza.id == pizzaId);
-    setInfo(array[0]);
-  }, []);
-  function handleRemove() {
-    removeLike(pizzaId);
-  }
-  return (
-    <>
-      <li key={info?.id} className={`pizza ${info?.soldOut ? "sold-out" : ""}`}>
-        <div className="pizza__left">
-          <img src={info.photoName} alt={info.name}></img>
-          <AiOutlineDislike
-            className="likeIcon"
-            onClick={handleRemove}
-          ></AiOutlineDislike>
-        </div>
-        <div className="pizza__right">
-          <h3>{info?.name}</h3>
-          <p>{info?.ingredients}</p>
-          <span>{info?.price}</span>
-        </div>
-      </li>
-    </>
-  );
-}
 
 function Pagination({ handlePage, total, page, itemPerPage }) {
   const [array, setArray] = useState([]);

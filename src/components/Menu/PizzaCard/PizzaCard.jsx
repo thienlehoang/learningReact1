@@ -1,14 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./PizzaCard.css"
 import { FcLike } from "react-icons/fc";
 import { AiOutlineLike } from "react-icons/ai";
+import { useDispatch, useSelector } from 'react-redux';
 //import { FcLike } from "react-icons/fc";
 export default function PizzaCard(props) {
   const {info} =  props;
   const [like,setLike]=useState(false);
+  const likelist = useSelector((state)=>state.likelist);
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    setLike(likelist.find((item)=>item.idPizza==info.id));
+  },[likelist])
   function handleLike(e){
     e.preventDefault();
     setLike((prev)=>!prev);
+    dispatch({
+      type:'addlikelist',
+      payload:info.id
+    })
   }
   return (
       <>
@@ -17,8 +27,8 @@ export default function PizzaCard(props) {
           <img src={info.photoName} alt={info.name}></img>
           {
             like ? 
-            <FcLike className='likeIcon' onClick={(e)=>handleLike(e)} /> : 
-            <AiOutlineLike className='likeIcon' onClick={(e)=>handleLike(e)}></AiOutlineLike>
+            <FcLike style={{opacity:.8}} className='likeIcon' onClick={(e)=>handleLike(e)} /> : 
+            <AiOutlineLike  className='likeIcon like' onClick={(e)=>handleLike(e)}></AiOutlineLike>
           }
           
         </div>
