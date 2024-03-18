@@ -1,0 +1,37 @@
+
+.header {
+  align-self: stretch;
+  display: flex;
+  justify-content: space-between;
+  background-color: #edc84b;
+  width: 100%;
+  min-height: 5rem;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  & .header__left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem 10rem;
+    & h1{
+      font-weight: 600;
+    }
+  }
+  & .header__right{
+    & .header__right-icon{
+      margin-left: 1rem;
+    }
+    display: flex;
+    align-items: center;
+  }
+}
+
+.header h1 {
+
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  position: relative;
+  /*width: 100%;*/
+  display: block;
+}

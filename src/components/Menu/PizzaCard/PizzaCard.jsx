@@ -20,6 +20,12 @@ export default function PizzaCard(props) {
       payload:info.id
     })
   }
+  function addcart(){
+    dispatch({
+      type:'addcart',
+      payload:info
+    })
+  }
   return (
       <>
       <li key={info?.id} className={`pizza ${info?.soldOut ? "sold-out" : ""}`}>
@@ -27,9 +33,10 @@ export default function PizzaCard(props) {
           <img src={info.photoName} alt={info.name}></img>
           {
             like ? 
-            <FcLike style={{opacity:.8}} className='likeIcon' onClick={(e)=>handleLike(e)} /> : 
-            <AiOutlineLike  className='likeIcon like' onClick={(e)=>handleLike(e)}></AiOutlineLike>
+            <FcLike style={{opacity:.8}} className='likeIcon icon' onClick={(e)=>handleLike(e)} /> : 
+            <AiOutlineLike  className='likeIcon like icon' onClick={(e)=>handleLike(e)}></AiOutlineLike>
           }
+          <button onClick={()=>addcart()}>click</button>
           
         </div>
         <div className='pizza__right'>

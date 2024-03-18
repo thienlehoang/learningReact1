@@ -12,7 +12,7 @@ export const likelistReducer=(state=likeList,action)=>{
       return newArray;
     }
     default: {
-      return likeList;
+      return state;
     }
   }
 }

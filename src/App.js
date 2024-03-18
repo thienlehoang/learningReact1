@@ -53,9 +53,11 @@ function App() {
 
   return (
     
-    <div className="container">
+    <div className="">
       <Header/>
-      <Menu/>
+      <div className="container">
+        <Menu/>
+      </div>
       <Footer/>
     </div>
   );

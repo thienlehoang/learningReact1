@@ -94,3 +94,15 @@ export var likeList = [
     idPizza:1,
   },
 ];
+
+export var cart = [
+  {
+    id:11,
+    name: "Pizza Spinaci",
+    ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
+    price: 12,
+    photoName: "pizzas/spinaci.jpg",
+    soldOut: false,
+    count:5
+  },
+];
