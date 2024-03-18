@@ -1,10 +1,10 @@
 import { combineReducers} from "redux"
 import likelist from "./likelist"
-import cart from './cart'
+import cartlist from './cart'
 
 export const allReducers=combineReducers(
   {
+    cartlist,
     likelist,
-    cart
   }
 )

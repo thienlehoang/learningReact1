@@ -4,12 +4,14 @@ import { pizzaData, likeList } from "../../data";
 import { AiOutlineDislike } from "react-icons/ai";
 import "./Menu.css";
 import PizzaLikeList from "../LikeList/Likelist";
+import { useDispatch } from "react-redux";
 
 export default function Menu() {
   //const pizzas = pizzaData;
   const [pizzas, setPizzas] = useState(pizzaData);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
   const itemPerPage = 10;
   useEffect(() => {
     setTimeout(() => {
@@ -36,6 +38,7 @@ export default function Menu() {
     setPage(page);
   }
 
+
   return (
     <>
       <div className="menu">
@@ -54,11 +57,13 @@ export default function Menu() {
                 </p>
                 <ul className="pizzas">
                   {pizzas.map((pizza) => (
-                    <PizzaCard
-                      key={pizza?.id}
-                      className="pizza"
-                      info={pizza}
-                    ></PizzaCard>
+                    <>
+                      <PizzaCard
+                        key={pizza?.id}
+                        className="pizza"
+                        info={pizza}
+                      ></PizzaCard>
+                    </>
                   ))}
                 </ul>
               </>
@@ -77,8 +82,6 @@ export default function Menu() {
     </>
   );
 }
-
-
 
 function Pagination({ handlePage, total, page, itemPerPage }) {
   const [array, setArray] = useState([]);

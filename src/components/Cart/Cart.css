@@ -22,15 +22,15 @@
         justify-content: space-between;
         font-weight: 600;
         font-size: 16px;
-        & div{
-          flex-grow: 1;
-        }
+
         & .cart__item-name{
           flex-grow: 3;
+          width: 60%;
         }
         & .cart__item-count{
           display: flex;
           align-items: center;
+          width: 20%;
           & span{
             margin: 0 1rem;
           }

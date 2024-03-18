@@ -20,7 +20,7 @@ export default function PizzaCard(props) {
       payload:info.id
     })
   }
-  function addcart(){    
+  function addcart(){
     dispatch({
       type:'addcart',
       payload:info
@@ -36,7 +36,7 @@ export default function PizzaCard(props) {
             <FcLike style={{opacity:.8}} className='likeIcon icon' onClick={(e)=>handleLike(e)} /> : 
             <AiOutlineLike  className='likeIcon like icon' onClick={(e)=>handleLike(e)}></AiOutlineLike>
           }
-          <button onClick={addcart()}>click</button>
+          <button onClick={()=>addcart()}>click</button>
           
         </div>
         <div className='pizza__right'>
