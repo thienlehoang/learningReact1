@@ -28,7 +28,7 @@ export default function PizzaCard(props) {
   }
   return (
       <>
-      <li key={info?.id} className={`pizza ${info?.soldOut ? "sold-out" : ""}`}>
+      <li key={info?.id} className={"pizza " + (info?.soldOut ? "sold-out" : "")}>
         <div className='pizza__left'>
           <img src={info.photoName} alt={info.name}></img>
           {

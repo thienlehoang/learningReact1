@@ -2,23 +2,43 @@ import { useState,useEffect } from "react";
 import { AiOutlineDislike } from "react-icons/ai";
 import { pizzaData } from "../../data";
 import { useSelector, useDispatch } from "react-redux";
+import Pagination from "../Pagination/Pagination";
 
 export default function PizzaLikeList({ }) {
   //const [likedList, setLikeList] = useState(likeList);
-  const likelist = useSelector((state)=>state.likelist);
   const dispatch = useDispatch();
+  const likelist = useSelector((state)=>state.likelist);
+
+  //handlePagi
+  const itemPerPage=2;
+  const [page,setPage] =useState(1);
+  const likeListRender=likelist.slice(
+    (page - 1) * itemPerPage,
+    (page - 1) * itemPerPage + itemPerPage
+    );
+  if(likelist.length<=Number(page)*itemPerPage-itemPerPage){
+    setPage(page-1);
+  }
+
+
+  function handlePageParent(page) {
+    setPage(page);
+  }
   function handleLikeList(removeId) {
     dispatch({
       type:'deletelikelist',
       id:removeId
     })
   }
+
+
   return (
     <>
+      <h2>Favorite</h2>
       {likelist.length > 0 && (
         <>
           <ul className="pizzas">
-            {likelist.map((item) => (
+            {likeListRender.map((item) => (
               <>
                 <LikeItem
                   key={item.id}
@@ -28,6 +48,12 @@ export default function PizzaLikeList({ }) {
               </>
             ))}
           </ul>
+          <Pagination
+          itemPerPage={itemPerPage}
+          page={page}
+          handlePage={handlePageParent}
+          total={likelist.length}
+          ></Pagination>
         </>
       )}
     </>
