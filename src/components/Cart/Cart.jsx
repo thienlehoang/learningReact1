@@ -7,11 +7,11 @@ import { useSelector, useDispatch } from "react-redux";
 import CartItem from './CartItem/CartItem';
 
 
-export default function Cart() {
+export default function Cart({visible}) {
   const cart = useSelector((state)=>state.cartlist);
   const dispatch = useDispatch();
   return (
-    <div className='cart'>
+    <div className={"cart " + (visible ? 'visible' : "")}>
       <h1>Cart</h1>
       <ul className='cart__list'>
         {cart.map((item)=>(

@@ -1,4 +1,9 @@
 .cart{
+  &.visible{
+    display: block;
+    transition: 0;
+  }
+  display: none;
   width: 50vw;
   min-height: 200px;
   position: absolute;

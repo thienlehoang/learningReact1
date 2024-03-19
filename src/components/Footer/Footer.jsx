@@ -14,7 +14,7 @@ export default function Footer(){
             <p>
               We're closed until {openHour}:00. Come visit us later.
             </p>
-            <button disabled="true" className="btn btn-disabled">Order later between {openHour} and {closeHour}</button>
+            <button disabled="true" className="btnOrder btnOrder-disabled">Order later between {openHour} and {closeHour}</button>
           </div>
         )
       }
@@ -29,7 +29,7 @@ function Order({closeHour,openHour}){
         <p>
           We're open from {openHour}:00  to {closeHour}:00. Come visit us or order online.
         </p>
-        <button className="btn">Order</button>
+        <button className="btnOrder">Order</button>
       </div>
     </>
   )

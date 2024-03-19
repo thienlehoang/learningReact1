@@ -5,6 +5,7 @@ import { AiOutlineDislike } from "react-icons/ai";
 import "./Menu.css";
 import PizzaLikeList from "../LikeList/Likelist";
 import { useDispatch } from "react-redux";
+import Pagination from "../Pagination/Pagination";
 
 export default function Menu() {
   //const pizzas = pizzaData;
@@ -83,27 +84,4 @@ export default function Menu() {
   );
 }
 
-function Pagination({ handlePage, total, page, itemPerPage }) {
-  const [array, setArray] = useState([]);
-  const handleClick = (e) => {
-    e.preventDefault();
-    handlePage(e.target.innerText);
-  };
-  return (
-    <>
-      <ul className="pagiList">
-        {Array.from({ length: total / itemPerPage + 1 }, (_, i) => i + 1).map(
-          (value, index) => (
-            <button
-              key={index}
-              className={`pagiStep ` + (page == index + 1 ? "active" : "")}
-              onClick={handleClick}
-            >
-              {index + 1}
-            </button>
-          )
-        )}
-      </ul>
-    </>
-  );
-}
+
