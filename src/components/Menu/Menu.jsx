@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PizzaCard from "./PizzaCard/PizzaCard";
-import { pizzaData, likeList } from "../../data";
-import { AiOutlineDislike } from "react-icons/ai";
+import { pizzaData } from "../../data";
 import "./Menu.css";
-import PizzaLikeList from "../LikeList/Likelist";
 import { useDispatch } from "react-redux";
 import Pagination from "../Pagination/Pagination";
 
@@ -12,7 +10,6 @@ export default function Menu() {
   const [pizzas, setPizzas] = useState(pizzaData);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const dispatch = useDispatch();
   const itemPerPage = 10;
   useEffect(() => {
     setTimeout(() => {
@@ -43,7 +40,7 @@ export default function Menu() {
   return (
     <>
       <div className="menu">
-        <h2>Our menu</h2>
+        <h2 className="title">Our menu</h2>
         {isLoading == true ? (
           <div className="loader-container">
             <div className="spinner"></div>
@@ -78,7 +75,7 @@ export default function Menu() {
           total={pizzaData.length}
         ></Pagination>
 
-        <PizzaLikeList></PizzaLikeList>
+        
       </div>
     </>
   );

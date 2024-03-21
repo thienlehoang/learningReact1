@@ -5,6 +5,7 @@ import { GoPlusCircle } from "react-icons/go";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import CartItem from './CartItem/CartItem';
+import { Link } from 'react-router-dom';
 
 
 export default function Cart({visible}) {
@@ -20,6 +21,7 @@ export default function Cart({visible}) {
           </>
         ))}
       </ul>
+      <Link to='/cart'>Go to Cart Detail</Link>
     </div>
   )
 }

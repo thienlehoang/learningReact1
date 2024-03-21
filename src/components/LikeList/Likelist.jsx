@@ -1,41 +1,39 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { AiOutlineDislike } from "react-icons/ai";
 import { pizzaData } from "../../data";
 import { useSelector, useDispatch } from "react-redux";
 import Pagination from "../Pagination/Pagination";
 
-export default function PizzaLikeList({ }) {
+export default function PizzaLikeList({}) {
   //const [likedList, setLikeList] = useState(likeList);
   const dispatch = useDispatch();
-  const likelist = useSelector((state)=>state.likelist);
+  const likelist = useSelector((state) => state.likelist);
 
   //handlePagi
-  const itemPerPage=2;
-  const [page,setPage] =useState(1);
-  const likeListRender=likelist.slice(
+  const itemPerPage = 2;
+  const [page, setPage] = useState(1);
+  const likeListRender = likelist.slice(
     (page - 1) * itemPerPage,
     (page - 1) * itemPerPage + itemPerPage
-    );
-  if(likelist.length<=Number(page)*itemPerPage-itemPerPage){
-    setPage(page-1);
+  );
+  if (likelist.length <= Number(page) * itemPerPage - itemPerPage) {
+    setPage(page - 1);
   }
-
 
   function handlePageParent(page) {
     setPage(page);
   }
   function handleLikeList(removeId) {
     dispatch({
-      type:'deletelikelist',
-      id:removeId
-    })
+      type: "deletelikelist",
+      id: removeId,
+    });
   }
-
 
   return (
     <>
-      <h2>Favorite</h2>
-      {likelist.length > 0 && (
+      <h2 className="title">Favorite</h2>
+      {likelist.length > 0 ? (
         <>
           <ul className="pizzas">
             {likeListRender.map((item) => (
@@ -49,12 +47,16 @@ export default function PizzaLikeList({ }) {
             ))}
           </ul>
           <Pagination
-          itemPerPage={itemPerPage}
-          page={page}
-          handlePage={handlePageParent}
-          total={likelist.length}
+            itemPerPage={itemPerPage}
+            page={page}
+            handlePage={handlePageParent}
+            total={likelist.length}
           ></Pagination>
         </>
+      ) : (
+        <div style={{ marginTop: "10px", fontStyle: "italic" }}>
+          No product in like list now.
+        </div>
       )}
     </>
   );
