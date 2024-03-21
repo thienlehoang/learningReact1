@@ -1,3 +1,4 @@
+import Button from '../../common/Button/Button';
 import './Footer.css'
 export default function Footer(){
   const hour = new Date().getHours();
@@ -14,7 +15,7 @@ export default function Footer(){
             <p>
               We're closed until {openHour}:00. Come visit us later.
             </p>
-            <button disabled="true" className="btnOrder btnOrder-disabled">Order later between {openHour} and {closeHour}</button>
+            <Button disabled="true" className="btnOrder btnOrder-disabled">Order later between {openHour} and {closeHour}</Button>
           </div>
         )
       }
@@ -29,7 +30,8 @@ function Order({closeHour,openHour}){
         <p>
           We're open from {openHour}:00  to {closeHour}:00. Come visit us or order online.
         </p>
-        <button className="btnOrder">Order</button>
+        <Button className={"btnOrder"}>Order</Button>
+        {/*<button className="btnOrder">Order</button>*/}
       </div>
     </>
   )

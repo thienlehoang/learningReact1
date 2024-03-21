@@ -1,9 +1,13 @@
+import { Outlet } from "react-router-dom";
+import Cart from "./components/Cart/Cart";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
-import "./index.css"
-import { ReactFragment } from 'react';
-//import  from './components/Card'
+import CartPage from "./components/pages/CartPage/CartPage";
+import HomePage from "./components/pages/HomePage/HomePage";
+import "./index.css";
+import { ReactFragment } from "react";
+
 const pizzaData = [
   {
     name: "Focaccia",
@@ -49,24 +53,21 @@ const pizzaData = [
   },
 ];
 
-function App() {
+//import  from './components/Card'
 
+function App() {
   return (
-    
+    //<Router>
     <div className="">
-      <Header/>
+      <Header />
       <div className="container">
-        <Menu/>
+        <Outlet></Outlet>
       </div>
-      <Footer/>
+      
+      {/*<Footer />*/}
     </div>
+    //</Router>
   );
 }
-
-
-
-
-
-
 
 export default App;
