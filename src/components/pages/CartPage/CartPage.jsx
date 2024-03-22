@@ -10,6 +10,9 @@ import Pagination from "../../Pagination/Pagination";
 
 function CartPage() {
   const cart = useSelector((state) => state.cartlist);
+  var totalPrice = cart.reduce((acc,cur)=>{
+    return acc+ (cur.price[0]*cur.count);
+  },0)
   //handlePagi
   const itemPerPage = 2;
   const [page, setPage] = useState(1);
@@ -17,6 +20,7 @@ function CartPage() {
     (page - 1) * itemPerPage,
     (page - 1) * itemPerPage + itemPerPage
   );
+  
   if (cart.length <= Number(page) * itemPerPage - itemPerPage) {
     setPage(page - 1);
   }
@@ -55,9 +59,9 @@ function CartPage() {
                 <img src={item.photoName} alt={item.name}></img>
               </td>
               <td className="c-30">{item.name}</td>
-              <td className="c-10">{item.price}$</td>
+              <td className="c-10">{item.price[0]}$</td>
               <td className="c-20">{item.count}</td>
-              <td className="c-10">{item.count * item.price}$</td>
+              <td className="c-10">{item.count * item.price[0]}$</td>
             </tr>
           ))}
         </table>
@@ -89,11 +93,11 @@ function CartPage() {
         <table className="cart__total-table">
           <tr>
             <th>Total</th>
-            <td>35$</td>
+            <td>{totalPrice}$</td>
           </tr>
         </table>
         <Button className="btnOrder" style={{display:"block",marginTop:"1rem",marginLeft:"auto"}}>
-          <Link to="/">Proceed to Checkout</Link>
+          <Link to="/checkout">Proceed to Checkout</Link>
         </Button>
       </div>
 

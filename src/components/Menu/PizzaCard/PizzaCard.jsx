@@ -3,9 +3,10 @@ import "./PizzaCard.css"
 import { FcLike } from "react-icons/fc";
 import { AiOutlineLike } from "react-icons/ai";
 import { useDispatch, useSelector } from 'react-redux';
-//import { FcLike } from "react-icons/fc";
+import {  useNavigate } from "react-router-dom";
 export default function PizzaCard(props) {
   const {info} =  props;
+  const navigate= useNavigate();
   const [like,setLike]=useState(false);
   const likelist = useSelector((state)=>state.likelist);
   const dispatch = useDispatch();
@@ -26,9 +27,13 @@ export default function PizzaCard(props) {
       payload:info
     })
   }
+
+  function gotoDetail(){
+    navigate(`/detail/${info.id}`); 
+  }
   return (
       <>
-      <li key={info?.id} className={"pizza " + (info?.soldOut ? "sold-out" : "")}>
+      <li onClick={()=>gotoDetail()} key={info?.id} className={"pizza " + (info?.soldOut ? "sold-out" : "")}>
         <div className='pizza__left'>
           <img src={info.photoName} alt={info.name}></img>
           {
