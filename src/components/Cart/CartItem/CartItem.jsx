@@ -36,7 +36,7 @@ function CartItem({ item }) {
             <GoPlusCircle onClick={()=>handleCount('plus')} className="icon-medium"></GoPlusCircle>
           </div>
           <div className="cart__item-name">{item?.name}</div>
-          <div>{item?.price}$</div>
+          <div>{item?.price[0]}$</div>
         </div>
       </li>
     </>
