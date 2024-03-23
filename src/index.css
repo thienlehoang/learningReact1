@@ -98,6 +98,9 @@ a{
 .pizza {
   display: flex;
   gap: 3.2rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
   &:hover{
     cursor: pointer;
     transform: scale(1.05);

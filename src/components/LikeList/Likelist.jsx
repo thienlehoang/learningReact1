@@ -84,7 +84,7 @@ export function LikeItem({ pizzaId, removeLike }) {
         <div className="pizza__right">
           <h3>{info?.name}</h3>
           <p>{info?.ingredients}</p>
-          <span>{info?.price[0]}</span>
+          <span>{info.price ? info.price[0]:''}</span>
         </div>
       </li>
     </>

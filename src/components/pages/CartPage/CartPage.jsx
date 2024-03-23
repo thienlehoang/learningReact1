@@ -10,8 +10,9 @@ import Pagination from "../../Pagination/Pagination";
 
 function CartPage() {
   const cart = useSelector((state) => state.cartlist);
+  console.log('cart',cart);
   var totalPrice = cart.reduce((acc,cur)=>{
-    return acc+ (cur.price[0]*cur.count);
+    return acc+ (cur.price*cur.count);
   },0)
   //handlePagi
   const itemPerPage = 2;
@@ -59,9 +60,9 @@ function CartPage() {
                 <img src={item.photoName} alt={item.name}></img>
               </td>
               <td className="c-30">{item.name}</td>
-              <td className="c-10">{item.price[0]}$</td>
+              <td className="c-10">{item.price}$</td>
               <td className="c-20">{item.count}</td>
-              <td className="c-10">{item.count * item.price[0]}$</td>
+              <td className="c-10">{item.count * item.price}$</td>
             </tr>
           ))}
         </table>

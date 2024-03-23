@@ -1,4 +1,8 @@
 .cart{
+  a{
+    display: inline-block;
+    margin-top: 2rem;
+  }
   &.visible{
     display: block;
     transition: 0;
@@ -18,6 +22,7 @@
     font-weight: 600;
   } 
   & .cart__list{
+    padding: 2rem 0;
     list-style: none;
     & .cart__item{
       padding: 1rem 0;
