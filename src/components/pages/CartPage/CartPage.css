@@ -1,8 +1,11 @@
 /*width: 80%;*/
 & .cart__wrap {
+  background-color: white;
   width: 100%;
   font-size: 16px;
   text-align: center;
+  padding: 2rem;
+  border-radius: 10px;
   & .cart__table {
     border-collapse: collapse;
     width: 100%;
@@ -71,6 +74,7 @@
   width: 50%;
   margin-left: auto;
   & .cart__total-table {
+    background-color: white;
     font-size: 16px;
     width: 100%;
     text-align: left;
@@ -78,7 +82,7 @@
     & th,td {
       border: 1px solid black;
       border-radius: 4px;
-      padding: 1rem 0;
+      padding: 2rem;
     }
     & th{
       font-weight: bold;
