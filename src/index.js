@@ -15,6 +15,7 @@ import HomePage from "./components/pages/HomePage/HomePage";
 import CartPage from "./components/pages/CartPage/CartPage";
 import CheckoutPage from "./components/pages/CheckoutPage/CheckoutPage";
 import DetailPage from "./components/pages/DetailPage/DetailPage";
+import MenuPage from "./components/pages/MenuPage/MenuPage";
 
 const store = createStore(allReducers);
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <HomePage />,
+      },
+      {
+        path: "menu",
+        element: <MenuPage />,
       },
       {
         path: "cart",

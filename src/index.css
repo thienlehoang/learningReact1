@@ -1,10 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: all .2s linear;
+  /*transition: all .2s linear;*/
+}
+.map-container {
+  height: 400px;
+}
+
+.sidebar {
+  background-color: rgb(35 55 75 / 90%);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+#marker {
+  background-image: url('https://t4.ftcdn.net/jpg/05/29/74/05/240_F_529740584_1NUibxPP3I6u73H2TZJbpeYLzdSrBZFx.jpg');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.mapboxgl-popup {
+  max-width: 200px;
 }
 
 html {
@@ -18,15 +48,34 @@ body {
   background-color: #f7f2e9;
   border-bottom: 1.6rem solid #edc84b;
   min-height: 100vh;
-  padding: 6rem 0;
-  padding-top: 10rem;
+  padding: 5rem 0;
+  padding-bottom: 0;
   font-size: 16px;
-  /*padding-bottom: 6rem;*/
 }
 a{
   color:unset;
   text-decoration: none;
+  position: relative;
 }
+
+/* underline transition*/
+.underline1{
+  &::after{
+    content: "";
+    position: absolute;
+    visibility: hidden;
+    bottom: -2px;
+    width: 1px;
+    left: -1px;
+    border: 1px solid black;
+    transition: all .3s linear;
+  }
+  &:hover::after{
+    visibility: visible;
+    width: 100%;
+  }
+}
+
 .icon{
   width: 3rem;
   height: 3rem;
@@ -45,7 +94,7 @@ a{
 
 .container {
   position: relative;
-  max-width: 80rem;
+  max-width: 80%;
   margin: 0 auto;
 
   display: flex;
@@ -72,6 +121,7 @@ a{
 
 .title {
   display: inline-block;
+  width: fit-content;
   padding: 1rem 0;
   border-top: 2px solid currentColor;
   border-bottom: 2px solid currentColor;
@@ -193,6 +243,9 @@ a{
   }
 }
 
+.map-custom .mapboxgl-popup-content{
+  color: #000;
+}
 /*
 SPACING SYSTEM (px)
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 40 / 48 / 64 / 80 / 96 / 128
