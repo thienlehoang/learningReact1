@@ -3,7 +3,14 @@ import { AiOutlineDislike } from "react-icons/ai";
 import { pizzaData } from "../../data";
 import { useSelector, useDispatch } from "react-redux";
 import Pagination from "../Pagination/Pagination";
+class pagihandle{
+  constructor(){
 
+  } 
+  handlePagi(){
+
+  }
+}
 export default function PizzaLikeList({}) {
   //const [likedList, setLikeList] = useState(likeList);
   const dispatch = useDispatch();
@@ -29,7 +36,6 @@ export default function PizzaLikeList({}) {
       id: removeId,
     });
   }
-
   return (
     <>
       <h2 className="title">Favorite</h2>
@@ -64,16 +70,22 @@ export default function PizzaLikeList({}) {
 
 export function LikeItem({ pizzaId, removeLike }) {
   const [info, setInfo] = useState({});
+  const [hover,setHover] = useState(false)
   useEffect(() => {
     let array = pizzaData.filter((pizza) => pizza.id == pizzaId);
     setInfo(array[0]);
   }, [pizzaId]);
+
+  // có thể dispatch ngay tại đây để remove pizza. 
   function handleRemove() {
     removeLike(pizzaId);
   }
+  function handleEnter(){
+    setHover(prev=>!prev)
+  }
   return (
     <>
-      <li key={info?.id} className={`pizza ${info?.soldOut ? "sold-out" : ""}`}>
+      <li onMouseEnter={()=>handleEnter()} key={info?.id} className={`pizza ${info?.soldOut ? "sold-out" : ""}`}>
         <div className="pizza__left">
           <img src={info.photoName} alt={info.name}></img>
           <AiOutlineDislike

@@ -54,11 +54,11 @@ function HomePage() {
           src="assets/pizzaintro.png"
         ></img>
       </div>
-      <div className="about w-full py-16">
+      <div className="about w-full py-20">
         <div className="mx-auto flex w-9/12 items-center justify-between gap-16">
           <div className="flex shrink grow basis-1/2 flex-col">
             <h2 className="title w-fit text-4xl">ABOUT US</h2>
-            <div className="mt-5">
+            <div className="mt-8">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -66,7 +66,7 @@ function HomePage() {
               survived not only five centuries, but also the leap into
               electronic typesetting, remaining essentially unchanged.
             </div>
-            <Button className="btnOrder mr-auto mt-5">Read more</Button>
+            <Button className="btnOrder mr-auto mt-8">Read more</Button>
           </div>
           <div className="shrink grow basis-1/2">
             <img
@@ -77,10 +77,10 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div className="findus w-full py-16">
+      <div className="findus w-full py-20">
         <div className="mx-auto w-9/12 text-center">
           <h2 className="title text-4xl">Find Us</h2>
-          <div className="mt-5 flex items-center justify-between gap-10">
+          <div className="mt-8 flex items-center justify-between gap-10">
             <div className="shrink grow basis-1/2">
               <div
                 ref={mapContainer}
@@ -96,9 +96,9 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div className="ourmenu w-full py-16 text-center">
+      <div className="ourmenu w-full py-20 text-center">
         <h2 className="title">Our Menu</h2>
-        <div className="ml-auto mr-auto mt-5 w-9/12 text-2xl">
+        <div className="ml-auto mr-auto mt-8 w-9/12 text-2xl">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
@@ -106,13 +106,32 @@ function HomePage() {
           five centuries, but also the leap into electronic typesetting,
           remaining essentially unchanged.
         </div>
-        <div className="mt-5 ml-auto mr-auto flex w-9/12 items-center justify-between gap-10 flex-nowrap ">
-          <img className="object-cover w-full self-stretch shrink grow basis-1/2 w-1/2" src="assets/menu1.png"></img>
-          <img className="object-cover w-full shrink grow basis-1/2 w-1/2" src="assets/menu2.png"></img>
+        <div className="ml-auto mr-auto mt-8 flex w-9/12 flex-nowrap items-center justify-between gap-10 ">
+          <div className="w-1/2 shrink grow basis-1/2 self-stretch">
+            <img
+              className="w-full object-cover"
+              src="assets/menu1.png"
+            ></img>
+          </div>
+          <div className="w-1/2 shrink grow basis-1/2 self-stretch">
+            <img
+              className="w-full object-cover"
+              src="assets/menu1.png"
+            ></img>
+          </div>
         </div>
-        <Button className="ml-auto mr-auto btnOrder mt-5">
-          <Link to='/menu'>Menu</Link>
+        <Button className="btnOrder ml-auto mr-auto mt-8">
+          <Link to="/menu">Menu</Link>
         </Button>
+      </div>
+      <div className=" intro relative -z-10 z-10 flex  w-full flex-col items-center bg-[url('/public/assets/wood2.png')] bg-cover bg-no-repeat px-16 py-40 text-2xl text-white">
+        <img
+          className="absolute top-0 -z-10 w-full object-cover"
+          src="/assets/pizzahalf.png"
+        ></img>
+        <h2 className=" m-auto inline-block text-8xl text-white">
+          Fast React Pizza Co
+        </h2>
       </div>
     </div>
   );
