@@ -7,7 +7,9 @@ import CartPage from "./components/pages/CartPage/CartPage";
 import HomePage from "./components/pages/HomePage/HomePage";
 import "./index.css";
 import { ReactFragment } from "react";
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
+mapboxgl.accessToken = 'pk.eyJ1IjoiYWx1a2FjaCIsImEiOiJ3US1JLXJnIn0.xrpBHCwvzsX76YlO-08kjg';
 
 //import  from './components/Card'
 
@@ -16,7 +18,7 @@ function App() {
     //<Router>
     <div className="">
       <Header />
-      <div className="container">
+      <div className="">
         <Outlet></Outlet>
       </div>
       
