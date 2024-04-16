@@ -7,6 +7,7 @@ import Button from "../../../common/Button/Button";
 import PizzaLikeList from "../../LikeList/Likelist";
 import { Link } from "react-router-dom";
 import Pagination from "../../Pagination/Pagination";
+import Header from "../../Header/Header";
 
 function CartPage() {
   const cart = useSelector((state) => state.cartlist);
@@ -19,7 +20,7 @@ function CartPage() {
   const [page, setPage] = useState(1);
   const cartRender = cart.slice(
     (page - 1) * itemPerPage,
-    (page - 1) * itemPerPage + itemPerPage
+    (page - 1) * itemPerPage + itemPerPage,
   );
 
   if (cart.length <= Number(page) * itemPerPage - itemPerPage) {
@@ -32,7 +33,8 @@ function CartPage() {
   const dispatch = useDispatch();
   return (
     <>
-      <div className="container">
+      <Header></Header>
+      <div className="container py-20">
         <h2 className="title">Cart</h2>
         <div className="cart__wrap">
           <table className="cart__table">

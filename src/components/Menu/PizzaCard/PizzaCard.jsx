@@ -21,12 +21,6 @@ export default function PizzaCard(props) {
       payload: info.id,
     });
   }
-  function addcart() {
-    dispatch({
-      type: "addcart",
-      payload: info,
-    });
-  }
 
   function gotoDetail() {
     navigate(`/detail/${info.id}`);
@@ -34,12 +28,11 @@ export default function PizzaCard(props) {
   return (
     <>
       <li
-        onClick={() => gotoDetail()}
         key={info?.id}
         className={"pizza " + (info?.soldOut ? "sold-out" : "")}
       >
         <div className="pizza__left">
-          <img src={info.photoName} alt={info.name}></img>
+          <img onClick={() => gotoDetail()} src={info.photoName} alt={info.name}></img>
           {like ? (
             <FcLike
               style={{ opacity: 0.8 }}
