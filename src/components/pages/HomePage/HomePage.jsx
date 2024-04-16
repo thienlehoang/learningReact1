@@ -2,11 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import "./HomePage.css";
 import Button from "./../../../common/Button/Button";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Header from "../../Header/Header";
+import { useSelector } from "react-redux";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWx1a2FjaCIsImEiOiJ3US1JLXJnIn0.xrpBHCwvzsX76YlO-08kjg";
 function HomePage() {
+  const navigate= useNavigate();
+  const user=useSelector((state)=>state.login)
   const mapContainer = useRef(null);
   const map = useRef(null);
   const monument = [106.6282367, 10.7980555];
@@ -33,15 +37,17 @@ function HomePage() {
     // create DOM element for the marker
     const el = document.createElement("div");
     el.id = "marker";
+  },[]);
 
-    // create the marker
-    //new mapboxgl.Marker(el)
-    //  .setLngLat(monument)
-    //  .setPopup(popup)
-    //  .addTo(map.current); // sets a popup on this marker
-  });
+  useEffect(()=>{
+    if(!user.email){
+      navigate('/');
+    }
+  },[])
   return (
-    <div className="homepage z-10 bg-black text-white">
+    <>
+    <Header></Header>
+    <div className="homepage z-10 bg-black text-white py-20">
       <div className=" intro relative -z-10 z-10 flex  w-full flex-col items-center bg-[url('/public/assets/homebackground.png')] bg-cover bg-no-repeat px-16 py-40 text-2xl text-white">
         <div className="z-10 mb-8 text-7xl font-bold">Fast React Pizza Co</div>
         <div className="max-w-4xl text-2xl">
@@ -134,6 +140,7 @@ function HomePage() {
         </h2>
       </div>
     </div>
+    </>
   );
 }
 

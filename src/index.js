@@ -7,15 +7,18 @@ import { allReducers } from "./reducers";
 import { createStore } from "redux";
 import {
   createBrowserRouter,
-  RouterProvider,
   BrowserRouter as Router,
+  RouterProvider,
   Outlet,
+  redirect,
+  Navigate,
 } from "react-router-dom";
 import HomePage from "./components/pages/HomePage/HomePage";
 import CartPage from "./components/pages/CartPage/CartPage";
 import CheckoutPage from "./components/pages/CheckoutPage/CheckoutPage";
 import DetailPage from "./components/pages/DetailPage/DetailPage";
 import MenuPage from "./components/pages/MenuPage/MenuPage";
+import LoginPage from "./components/pages/LoginPage/LoginPage";
 
 const store = createStore(allReducers);
 const router = createBrowserRouter([
@@ -23,8 +26,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      { path: "/", element: <Navigate to="/login" replace/>},
       {
-        path: "",
+        path: "login",
+        element: <LoginPage/>
+      },
+      {
+        path: "home",
         element: <HomePage />,
       },
       {
@@ -43,6 +51,10 @@ const router = createBrowserRouter([
         path: "checkout",
         element: <CheckoutPage />,
       },
+      {
+        path: "about",
+        element: <CheckoutPage />,
+      },
     ],
   },
 ]);
@@ -55,5 +67,5 @@ root.render(
         <App />
       </RouterProvider>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

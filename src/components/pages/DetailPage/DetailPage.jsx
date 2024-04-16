@@ -4,6 +4,7 @@ import { pizzaData } from "../../../data";
 import "./DetailPage.css";
 import Button from "../../../common/Button/Button";
 import { useDispatch } from "react-redux";
+import Header from "../../Header/Header";
 
 function DetailPage() {
   const { id } = useParams();
@@ -24,58 +25,76 @@ function DetailPage() {
     });
   }
   return (
-    <div className="contianer">
-      <div className="detail">
-        <div className="detail__left">
-          <img src={`/${info?.photoName}`} alt={info?.name}></img>
-          <h1>{info?.price[price]}$</h1>
-        </div>
-        <div className="detail__right">
-          <h2>{info?.name}</h2>
-          <div className="ingredient">{info?.ingredients}</div>
-          <div className="attribute">
-            <dl>
-              <div className="size">
-                <dt>Size</dt>
-                <dd>
-                  <ul className="option__list">
-                    <li onClick={() => handleSize(0)} className="option__item">
-                      <Button
-                        className={"btnOrder" + (price == 0 ? " ordered" : "")}
-                      >
-                        Small
-                      </Button>
-                    </li>
-                    <li onClick={() => handleSize(1)} className="option__item">
-                      <Button
-                        className={"btnOrder" + (price == 1 ? " ordered" : "")}
-                      >
-                        Medium +3$
-                      </Button>
-                    </li>
-                    <li onClick={() => handleSize(2)} className="option__item">
-                      <Button
-                        className={"btnOrder" + (price == 2 ? " ordered" : "")}
-                      >
-                        Large +5$
-                      </Button>
-                    </li>
-                  </ul>
-                </dd>
-                <dt>Note</dt>
-                <textarea type="text" placeholder="Note here"></textarea>
-              </div>
-              <div className="note"></div>
-            </dl>
+    <>
+      <Header></Header>
+      <div className="contianer py-20">
+        <div className="detail">
+          <div className="detail__left">
+            <img src={`/${info?.photoName}`} alt={info?.name}></img>
+            <h1>{info?.price[price]}$</h1>
           </div>
-          <div onClick={() => handleAddtoCart()}>
-            <Button style={{ width: "100%" }} className="btnOrder">
-              Add to Cart
-            </Button>
+          <div className="detail__right">
+            <h2>{info?.name}</h2>
+            <div className="ingredient">{info?.ingredients}</div>
+            <div className="attribute">
+              <dl>
+                <div className="size">
+                  <dt>Size</dt>
+                  <dd>
+                    <ul className="option__list">
+                      <li
+                        onClick={() => handleSize(0)}
+                        className="option__item"
+                      >
+                        <Button
+                          className={
+                            "btnOrder" + (price == 0 ? " ordered" : "")
+                          }
+                        >
+                          Small
+                        </Button>
+                      </li>
+                      <li
+                        onClick={() => handleSize(1)}
+                        className="option__item"
+                      >
+                        <Button
+                          className={
+                            "btnOrder" + (price == 1 ? " ordered" : "")
+                          }
+                        >
+                          Medium +3$
+                        </Button>
+                      </li>
+                      <li
+                        onClick={() => handleSize(2)}
+                        className="option__item"
+                      >
+                        <Button
+                          className={
+                            "btnOrder" + (price == 2 ? " ordered" : "")
+                          }
+                        >
+                          Large +5$
+                        </Button>
+                      </li>
+                    </ul>
+                  </dd>
+                  <dt>Note</dt>
+                  <textarea type="text" placeholder="Note here"></textarea>
+                </div>
+                <div className="note"></div>
+              </dl>
+            </div>
+            <div onClick={() => handleAddtoCart()}>
+              <Button style={{ width: "100%" }} className="btnOrder">
+                Add to Cart
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
