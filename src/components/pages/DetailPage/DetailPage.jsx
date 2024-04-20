@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { pizzaData } from "../../../data";
 import "./DetailPage.css";
 import Button from "../../../common/Button/Button";
@@ -8,6 +8,7 @@ import Header from "../../Header/Header";
 
 function DetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [info, setInfo] = useState();
   const [price, setPrice] = useState(0);
@@ -24,6 +25,19 @@ function DetailPage() {
       payload: { ...info, price: info.price[price] },
     });
   }
+
+  //move to menu screen when press ESC
+  useEffect(()=>{
+    function handleEscape(e){
+      if(e.key=='Escape'){
+        navigate('/menu');
+      }
+    }
+    window.addEventListener('keydown',(e)=>handleEscape(e))
+    return ()=>{
+      window.removeEventListener('keydown',handleEscape)
+    }
+  },[])
   return (
     <>
       <Header></Header>
