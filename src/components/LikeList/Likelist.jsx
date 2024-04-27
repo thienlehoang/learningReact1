@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { AiOutlineDislike } from "react-icons/ai";
 import { pizzaData } from "../../data";
 import { useSelector, useDispatch } from "react-redux";
-import Pagination from "../Pagination/Pagination";
+import Pagination from "../../common/Pagination/Pagination";
 class pagihandle{
   constructor(){
 

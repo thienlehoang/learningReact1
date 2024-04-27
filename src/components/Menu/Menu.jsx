@@ -1,60 +1,63 @@
 import React, { useEffect, useState } from "react";
 import PizzaCard from "./PizzaCard/PizzaCard";
-import { pizzaData } from "../../data";
 import "./Menu.css";
-import { useDispatch } from "react-redux";
-import Pagination from "../Pagination/Pagination";
+import { useDispatch,useSelector } from "react-redux";
+import Pagination from "../../common/Pagination/Pagination";
+import {usePagination} from "../../customhooks/usePagination";
+import { pizzaData } from "../../data";
 
 export default function Menu() {
-  //const pizzas = pizzaData;
-  const [pizzaList, setPizzaList] = useState(pizzaData);
+  //const pizzaData=useSelector((state)=>state.pizza); 
+  //const user=useSelector((state)=>state.login)
+  const pizzaList = useState(pizzaData);
+  console.log(pizzaList);
   const [pizzas, setPizzas] = useState([]);
   const [sortBy, setSortBy] = useState("nameaz");
   const [searchValue, setSearchValue] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  //const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const itemPerPage = 10;
-  useEffect(() => {
-    let a = pizzaList.slice(
-      (page - 1) * itemPerPage,
-      (page - 1) * itemPerPage + itemPerPage,
-    );
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+  const {isLoading,handlePagi} = usePagination(pizzaList,itemPerPage,page);
+  useEffect(()=>{
+    let a=handlePagi();
     setPizzas(a);
-  }, [page, pizzaList]);
+  },[page,pizzaList])
+
 
   function handlePageParent(page) {
     setPage(page);
   }
 
-  //sorting
-  useEffect(() => {
-    if (sortBy == "nameaz") {
-      let a = pizzaList.sort((a, b) => (a.name < b.name ? -1 : 1));
-      setPizzaList([...a]);
-    }
-    if (sortBy == "nameza") {
-      let a = pizzaList.sort((a, b) => (a.name > b.name ? -1 : 1));
-      setPizzaList([...a]);
-    }
-    if (sortBy == "price1") {
-      let a = pizzaList.sort((a, b) => (a.price[0] < b.price[0] ? -1 : 1));
-      setPizzaList([...a]);
-    }
-    if (sortBy == "price2") {
-      let a = pizzaList.sort((a, b) => (a.price[0] > b.price[0] ? -1 : 1));
-      setPizzaList([...a]);
-    }
-  }, [sortBy]);
+  ////sorting
+  //useEffect(() => {
+  //  if (sortBy == "nameaz") {
+  //    let a = pizzaList.sort((a, b) => (a.name < b.name ? -1 : 1));
+  //    setPizzaList([...a]);
+  //  }
+  //  if (sortBy == "nameza") {
+  //    let a = pizzaList.sort((a, b) => (a.name > b.name ? -1 : 1));
+  //    setPizzaList([...a]);
+  //  }
+  //  if (sortBy == "price1") {
+  //    let a = pizzaList.sort((a, b) => (a.price[0] < b.price[0] ? -1 : 1));
+  //    setPizzaList([...a]);
+  //  }
+  //  if (sortBy == "price2") {
+  //    let a = pizzaList.sort((a, b) => (a.price[0] > b.price[0] ? -1 : 1));
+  //    setPizzaList([...a]);
+  //  }
+  //}, [sortBy]);
 
   //searching
   useEffect(() => {
     const debounce = setTimeout(() => {
-      let result = pizzaData.filter((item) => item.name.includes(searchValue));
-      setPizzaList(result);
+      if(searchValue==''){
+        let a=handlePagi();
+        setPizzas(a); 
+      } else {
+        let result = pizzaList.filter((item) => item.name.includes(searchValue));
+        setPizzas(result);
+      }
     }, 1000);
     return () => clearTimeout(debounce);
   }, [searchValue]);
@@ -94,7 +97,7 @@ export default function Menu() {
           </div>
         ) : (
           <>
-            {pizzas && (
+            {pizzas.length>0 && (
               <>
                 <ul className="pizzas">
                   {pizzas.map((pizza) => (

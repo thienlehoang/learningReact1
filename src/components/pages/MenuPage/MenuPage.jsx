@@ -1,14 +1,14 @@
 import React from "react";
 import Menu from "../../Menu/Menu";
-import Footer from "../../Footer/Footer";
-import Header from "../../Header/Header";
+import Header from './../../../common/Header/Header';
+import Footer from './../../../common/Footer/Footer';
 
 function MenuPage() {
   return (
     <div className="container py-20">
       <Header></Header>
       <Menu></Menu>
-      <Footer />
+      <Footer></Footer>
     </div>
   );
 }

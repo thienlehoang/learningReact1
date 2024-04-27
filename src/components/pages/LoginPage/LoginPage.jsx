@@ -11,21 +11,23 @@ const user={
 function LoginPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const stateLogin= useSelector((state)=>state.login);
+  const {isLogined}= useSelector((state)=>state.login);
   const [isLogin, setLogin] = useState(true);
   const [visible, setVisible] = useState(false);
   const [email,setEmail]= useState("");
   const [password,setPassword]= useState("");
   function handleLogin(e) {
     e.preventDefault();
-    if(email==user.email && password == user.password){
-      dispatch({
-        type:'login',
-        payload:{email,password}
-      })
+    dispatch({
+      type:'login',
+      payload:{email,password}
+    })
+  }
+  useEffect(()=>{
+    if(isLogined){
       navigate('/home');
     }
-  }
+  },[isLogined])
   function handleSignup() {}
 
   return (

@@ -6,12 +6,11 @@ import { GoTrash } from "react-icons/go";
 import Button from "../../../common/Button/Button";
 import PizzaLikeList from "../../LikeList/Likelist";
 import { Link } from "react-router-dom";
-import Pagination from "../../Pagination/Pagination";
-import Header from "../../Header/Header";
+import Pagination from "../../../common/Pagination/Pagination";
+import Header from "../../../common/Header/Header";
 
 function CartPage() {
   const cart = useSelector((state) => state.cartlist);
-  console.log("cart", cart);
   var totalPrice = cart.reduce((acc, cur) => {
     return acc + cur.price * cur.count;
   }, 0);

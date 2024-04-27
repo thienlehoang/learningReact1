@@ -4,7 +4,7 @@ import { pizzaData } from "../../../data";
 import "./DetailPage.css";
 import Button from "../../../common/Button/Button";
 import { useDispatch } from "react-redux";
-import Header from "../../Header/Header";
+import Header from "../../../common/Header/Header";
 
 function DetailPage() {
   const { id } = useParams();
@@ -24,6 +24,7 @@ function DetailPage() {
       type: "addcart",
       payload: { ...info, price: info.price[price] },
     });
+    navigate('/cart')
   }
 
   //move to menu screen when press ESC
