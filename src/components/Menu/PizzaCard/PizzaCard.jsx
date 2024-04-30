@@ -10,7 +10,7 @@ export default function PizzaCard(props) {
   const { info } = props;
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
-  const [updating,setUpdating] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const likelist = useSelector((state) => state.likelist);
   const { cate, isLogined } = useSelector((state) => state.login);
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ export default function PizzaCard(props) {
             ></AiOutlineLike>
           )}
         </div>
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col justify-between w-full">
           <h3>{info?.name}</h3>
           <p>{info?.ingredients}</p>
           <div className="flex items-center justify-between">

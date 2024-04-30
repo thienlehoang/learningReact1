@@ -1,12 +1,13 @@
 import { pizzaData } from "../data"
-export const pizzaReducer=(state=pizzaData,action)=>{
-  switch(action.type){
-    case 'deletePizza':{
-      const id =action.payload;
-      const array=state.filter(item=>item.id!=id);
+export const pizzaReducer = (state = pizzaData, action) => {
+  switch (action.type) {
+    case 'deletePizza': {
+      let array = state.filter(item => item.id != action.payload);
       return [...array];
     }
-    default: return state;
+    default: {
+      return state;
+    }
   }
 }
-export default pizzaReducer
+export default pizzaReducer;
