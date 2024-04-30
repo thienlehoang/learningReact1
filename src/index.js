@@ -15,10 +15,11 @@ import {
 } from "react-router-dom";
 import HomePage from "./components/pages/HomePage/HomePage";
 import CartPage from "./components/pages/CartPage/CartPage";
-import CheckoutPage from "./components/pages/CheckoutPage/CheckoutPage";
+
 import DetailPage from "./components/pages/DetailPage/DetailPage";
 import MenuPage from "./components/pages/MenuPage/MenuPage";
 import LoginPage from "./components/pages/LoginPage/LoginPage";
+import AboutUsPage from "./components/pages/AboutUsPage/AboutUsPage";
 
 const store = createStore(allReducers);
 const router = createBrowserRouter([
@@ -49,11 +50,11 @@ const router = createBrowserRouter([
       },
       {
         path: "checkout",
-        element: <CheckoutPage />,
+        element: <AboutUsPage />,
       },
       {
         path: "about",
-        element: <CheckoutPage />,
+        element: <AboutUsPage />,
       },
     ],
   },

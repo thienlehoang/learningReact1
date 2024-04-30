@@ -3,14 +3,13 @@ import "./HomePage.css";
 import Button from "./../../../common/Button/Button";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { Link, useNavigate } from "react-router-dom";
-import Header from "../../Header/Header";
 import { useSelector } from "react-redux";
+import Header from './../../../common/Header/Header';
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWx1a2FjaCIsImEiOiJ3US1JLXJnIn0.xrpBHCwvzsX76YlO-08kjg";
 function HomePage() {
   const navigate= useNavigate();
-  const user=useSelector((state)=>state.login)
   const mapContainer = useRef(null);
   const map = useRef(null);
   const monument = [106.6282367, 10.7980555];
@@ -37,13 +36,14 @@ function HomePage() {
     // create DOM element for the marker
     const el = document.createElement("div");
     el.id = "marker";
-  },[]);
+  },[lat,lng,zoom]);
 
-  useEffect(()=>{
-    if(!user.email){
-      navigate('/');
-    }
-  },[])
+
+  //useEffect(()=>{
+  //  if(!user.email){
+  //    navigate('/');
+  //  }
+  //},[])
   return (
     <>
     <Header></Header>

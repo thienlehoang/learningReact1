@@ -168,9 +168,9 @@ a{
 }
 
 .pizza div {
-  display: flex;
+  /*display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.8rem;*/
 }
 
 .pizza h3 {

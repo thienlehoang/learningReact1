@@ -1,9 +1,9 @@
 import React from "react";
-import "./CheckoutPage.css";
-import Header from "../../Header/Header";
+import "./AboutUsPage.css";
+import Header from "./../../../common/Header/Header";
 import Button from "./../../../common/Button/Button";
-import Footer from "./../../Footer/Footer";
-function CheckoutPage() {
+import Footer from "./../../../common/Footer/Footer";
+function AboutUsPage() {
   return (
     <>
       <div className="">
@@ -122,4 +122,4 @@ function CheckoutPage() {
   );
 }
 
-export default CheckoutPage;
+export default AboutUsPage;

@@ -106,3 +106,16 @@ export var cart = [
     count:5
   },
 ];
+
+export var users=[
+  {
+    id: 1,
+    cartId:1,
+    listListId:1,
+    cate:1, // 0 : user , 1 :admin
+    firstName:'lethien' ,
+    email:'lethien@gmail.com',
+    password:'yeumthu',
+    isLogined: false
+  }
+]

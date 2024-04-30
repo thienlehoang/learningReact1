@@ -1,10 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Cart from "./components/Cart/Cart";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
-import Menu from "./components/Menu/Menu";
-import CartPage from "./components/pages/CartPage/CartPage";
-import HomePage from "./components/pages/HomePage/HomePage";
+
 import "./index.css";
 import { ReactFragment } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax

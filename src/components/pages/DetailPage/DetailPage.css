@@ -4,7 +4,7 @@
   width: 100%;
   background-color: #fafafa;
   border-radius: 10px;
-  height: calc( 100vh - 20rem);
+  height: calc( 100vh - 2rem);
   padding: 2rem;
   .detail__left {
     width: 50%;

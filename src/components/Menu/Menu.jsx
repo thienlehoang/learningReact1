@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from "react";
 import PizzaCard from "./PizzaCard/PizzaCard";
-import { pizzaData } from "../../data";
 import "./Menu.css";
-import { useDispatch } from "react-redux";
-import Pagination from "../Pagination/Pagination";
+import { useDispatch, useSelector } from "react-redux";
+import Pagination from "../../common/Pagination/Pagination";
+import { usePagination } from "../../customhooks/usePagination";
+import Button from "../../common/Button/Button"
 
 export default function Menu() {
-  //const pizzas = pizzaData;
+  const pizzaData = useSelector((state) => state.pizza);
+  //const user=useSelector((state)=>state.login)
   const [pizzaList, setPizzaList] = useState(pizzaData);
   const [pizzas, setPizzas] = useState([]);
   const [sortBy, setSortBy] = useState("nameaz");
   const [searchValue, setSearchValue] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  //const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [isAdding, setIsAdding] = useState(true)
+
   const itemPerPage = 10;
+  const { isLoading, handlePagi } = usePagination(pizzaList, itemPerPage, page);
   useEffect(() => {
-    let a = pizzaList.slice(
-      (page - 1) * itemPerPage,
-      (page - 1) * itemPerPage + itemPerPage,
-    );
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    let a = handlePagi();
     setPizzas(a);
-  }, [page, pizzaList]);
+  }, [page, pizzaList])
+
 
   function handlePageParent(page) {
     setPage(page);
@@ -53,36 +52,46 @@ export default function Menu() {
   //searching
   useEffect(() => {
     const debounce = setTimeout(() => {
-      let result = pizzaData.filter((item) => item.name.includes(searchValue));
-      setPizzaList(result);
+      if (searchValue == '') {
+        let a = handlePagi();
+        setPizzas(a);
+      } else {
+        let result = pizzaList.filter((item) => item.name.includes(searchValue));
+        setPizzas(result);
+      }
     }, 1000);
     return () => clearTimeout(debounce);
   }, [searchValue]);
 
   return (
     <>
-      <div className="menu">
-        <h2 className="title">Our menu</h2>
-        <div className="">
-          <label for="cars">Sort by:</label>
-          <select
-            className="mt-20 mr-20   h-16 rounded-lg p-4 text-gray-400 outline-none hover:cursor-pointer"
-            name="cars"
-            id="cars"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-          >
-            <option value="nameaz">Name(A→Z)</option>
-            <option value="nameza">Name(Z→A)</option>
-            <option value="price1">Price(Lowest to Highest)</option>
-            <option value="price2">Price(Highest to Lowest)</option>
-          </select>
+      <div className="menu p-10 relative">
+        <h2 className="title mt-20 inline-block">Our menu</h2>
+        <div className="flex justify-center items-center mt-20 w-full">
+          <div>
+            <label for="cars">Sort by:</label>
+            <select
+              className="mr-10 ml-10  h-16 rounded-lg p-4 text-gray-400 outline-none hover:cursor-pointer"
+              name="cars"
+              id="cars"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="nameaz">Name(A→Z)</option>
+              <option value="nameza">Name(Z→A)</option>
+              <option value="price1">Price(Lowest to Highest)</option>
+              <option value="price2">Price(Highest to Lowest)</option>
+            </select>
+          </div>
+
           <input
-            className="mt-20 h-16 rounded-lg p-4 outline-none hover:cursor-pointer"
+            className="mr-10 h-16 rounded-lg p-4 outline-none hover:cursor-pointer inline-block"
             value={searchValue}
-            placeholder="Enter something..."
+            placeholder="Search something..."
             onChange={(e) => setSearchValue(e.target.value)}
           />
+          <Button onClick={(e) => setIsAdding(true)} className="btnOrder">Add new pizza</Button>
+
         </div>
         <p>
           Authentic Italian cuisine. 6 creative dishes to choose from. All from
@@ -94,7 +103,7 @@ export default function Menu() {
           </div>
         ) : (
           <>
-            {pizzas && (
+            {pizzas.length > 0 && (
               <>
                 <ul className="pizzas">
                   {pizzas.map((pizza) => (
@@ -115,8 +124,13 @@ export default function Menu() {
           itemPerPage={itemPerPage}
           page={page}
           handlePage={handlePageParent}
-          total={pizzaData.length}
+          total={pizzaList.length}
         ></Pagination>
+        {isAdding &&
+          <div className="z-10 absolute min-h-screen w-4/5 bg-white">
+            <button onClick={() => setIsAdding(false)}>click</button>
+          </div>
+        }
       </div>
     </>
   );
