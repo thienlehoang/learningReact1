@@ -7,10 +7,9 @@ import { AiOutlineLike } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 export default function PizzaCard(props) {
-  const { info } = props;
+  const { info, handleAdding } = props;
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
-  const [updating, setUpdating] = useState(false);
   const likelist = useSelector((state) => state.likelist);
   const { cate, isLogined } = useSelector((state) => state.login);
   const dispatch = useDispatch();
@@ -33,13 +32,13 @@ export default function PizzaCard(props) {
     <>
       <li
         key={info?.id}
-        className={"pizza " + (info?.soldOut ? "sold-out" : "")}
+        className={"pizza " + (info?.count == 0 ? "sold-out" : "")}
       >
         <div className="pizza__left">
           <img
             onClick={() => gotoDetail()}
-            src={info.photoName}
-            alt={info.name}
+            src={info?.photoName}
+            alt={info?.name}
           ></img>
           {like ? (
             <FcLike
@@ -63,7 +62,7 @@ export default function PizzaCard(props) {
               <div className="flex w-fit">
                 <MdOutlineEdit
                   onClick={() =>
-                    setUpdating(true)
+                    handleAdding('modify', true, info?.id)
                   }
                   className="icon"
                 ></MdOutlineEdit>
