@@ -13,7 +13,7 @@ export default function Header() {
   }
   return (
     <>
-      <header className="self-strech fixed top-0 z-50 flex w-full justify-between bg-theme px-20 py-4">
+      <header className="self-strech fixed top-0 z-40 flex w-full justify-between bg-theme px-20 py-4">
         <div className="flex shrink grow basis-1/3 flex-col justify-center">
           <Link to={"/home"} style={{ textDecoration: "none" }}>
             <h2 className="font-bold">Fast React Pizza Co</h2>

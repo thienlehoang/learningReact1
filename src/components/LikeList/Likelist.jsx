@@ -3,15 +3,15 @@ import { AiOutlineDislike } from "react-icons/ai";
 import { pizzaData } from "../../data";
 import { useSelector, useDispatch } from "react-redux";
 import Pagination from "../../common/Pagination/Pagination";
-class pagihandle{
-  constructor(){
+class pagihandle {
+  constructor() {
 
-  } 
-  handlePagi(){
+  }
+  handlePagi() {
 
   }
 }
-export default function PizzaLikeList({}) {
+export default function PizzaLikeList({ }) {
   //const [likedList, setLikeList] = useState(likeList);
   const dispatch = useDispatch();
   const likelist = useSelector((state) => state.likelist);
@@ -70,7 +70,7 @@ export default function PizzaLikeList({}) {
 
 export function LikeItem({ pizzaId, removeLike }) {
   const [info, setInfo] = useState({});
-  const [hover,setHover] = useState(false)
+  const [hover, setHover] = useState(false)
   useEffect(() => {
     let array = pizzaData.filter((pizza) => pizza.id == pizzaId);
     setInfo(array[0]);
@@ -80,12 +80,12 @@ export function LikeItem({ pizzaId, removeLike }) {
   function handleRemove() {
     removeLike(pizzaId);
   }
-  function handleEnter(){
-    setHover(prev=>!prev)
+  function handleEnter() {
+    setHover(prev => !prev)
   }
   return (
     <>
-      <li onMouseEnter={()=>handleEnter()} key={info?.id} className={`pizza ${info?.soldOut ? "sold-out" : ""}`}>
+      <li onMouseEnter={() => handleEnter()} key={info?.id} className={`pizza ${info?.count <= 0 ? "sold-out" : ""}`}>
         <div className="pizza__left">
           <img src={info.photoName} alt={info.name}></img>
           <AiOutlineDislike
@@ -96,7 +96,7 @@ export function LikeItem({ pizzaId, removeLike }) {
         <div className="pizza__right">
           <h3>{info?.name}</h3>
           <p>{info?.ingredients}</p>
-          <span>{info.price ? info.price[0]:''}</span>
+          <span>{info.price ? info.price[0] : ''}</span>
         </div>
       </li>
     </>
