@@ -15,9 +15,19 @@ function DetailPage() {
   function handleSize(s) {
     setPrice(s);
   }
+
+  async function getData(id){
+    try {
+      const data=await fetch(`http://localhost:4000/api/v1/pizza/pizzaList/${id}`);
+      const response = await data.json()
+      setInfo({...response.data});
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
     // get data từ server bằng id (  sau này có server )
-    setInfo(pizzaData.filter((item) => item.id == id)[0]);
+    getData(id);
   }, []);
   function handleAddtoCart() {
     dispatch({
@@ -45,7 +55,7 @@ function DetailPage() {
       <div className="contianer py-20">
         <div className="detail">
           <div className="detail__left">
-            <img src={`/${info?.photoName}`} alt={info?.name}></img>
+            <img src={info?.photoName} alt={info?.name}></img>
             <h1>{info?.price[price]}$</h1>
           </div>
           <div className="detail__right">

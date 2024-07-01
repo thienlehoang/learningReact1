@@ -14,24 +14,37 @@ export default function PizzaCard(props) {
   const { cate, isLogined } = useSelector((state) => state.login);
   const dispatch = useDispatch();
   useEffect(() => {
-    setLike(likelist.find((item) => item.idPizza == info.id));
+    setLike(likelist.find((item) => item._idPizza == info._id));
   }, [likelist]);
   function handleLike(e) {
     e.preventDefault();
     setLike((prev) => !prev);
     dispatch({
       type: "addlikelist",
-      payload: info.id,
+      payload: info._id,
     });
+  }
+  async function handleDelete(_id){
+    fetch(`http://localhost:4000/api/v1/pizza/delete/${_id}`, {
+      method: "DELETE",
+    })
+      .then(response => response.json())
+      .then((data) => {
+        dispatch({
+          type: "deletePizza",
+          payload: data
+        })
+      })
+    
   }
 
   function gotoDetail() {
-    navigate(`/detail/${info.id}`);
+    navigate(`/detail/${info._id}`);
   }
   return (
     <>
       <li
-        key={info?.id}
+        key={info?._id}
         className={"pizza " + (info?.count == 0 ? "sold-out" : "")}
       >
         <div className="pizza__left">
@@ -62,16 +75,13 @@ export default function PizzaCard(props) {
               <div className="flex w-fit">
                 <MdOutlineEdit
                   onClick={() =>
-                    handleAdding('modify', true, info?.id)
+                    handleAdding('modify', true, info?._id)
                   }
                   className="icon"
                 ></MdOutlineEdit>
                 <GoTrash
                   onClick={() =>
-                    dispatch({
-                      type: "deletePizza",
-                      payload: info.id
-                    })
+                    handleDelete(info?._id)
                   }
                   className="icon"
                 ></GoTrash>
