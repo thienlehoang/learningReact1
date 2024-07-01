@@ -4,147 +4,168 @@ import "./Menu.css";
 import { useDispatch, useSelector } from "react-redux";
 import Pagination from "../../common/Pagination/Pagination";
 import { usePagination } from "../../customhooks/usePagination";
-import Button from "../../common/Button/Button"
+import Button from "../../common/Button/Button";
+import FileBase from "react-file-base64";
+import { json } from "react-router-dom";
 
 export default function Menu() {
   const dispatch = useDispatch();
   const pizzaData = useSelector((state) => state.pizza);
-  //const user=useSelector((state)=>state.login)
-  const [pizzaList, setPizzaList] = useState(pizzaData);
-  const [pizzas, setPizzas] = useState([]);
-  const [sortBy, setSortBy] = useState("nameaz");
+  const [totalCount, setTotalCount] = useState(0);
+  const [sortBy, setSortBy] = useState("name");
   const [searchValue, setSearchValue] = useState("");
-  //const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [isModify, setIsModify] = useState(false);
   const [addObject, setAddObject] = useState({});
 
-  const itemPerPage = 10;
-  const { isLoading, handlePagi } = usePagination(pizzaList, itemPerPage, page);
-  useEffect(() => {
-    let a = handlePagi();
-    setPizzas(a);
-  }, [page, pizzaList])
-
-
-  function handlePageParent(page) {
-    setPage(page);
+  const itemPerPage = 4;
+  async function getData(sort,search,page) {
+    try {
+      setIsLoading(true);
+      const data = await fetch(
+        `http://localhost:4000/api/v1/pizza/pizzaList?search=${search}&sort=${sort}&limit=${itemPerPage}&page=${page}`,
+      );
+      const res = await data.json();
+      setIsLoading(false);
+      setTotalCount(res.count);
+      dispatch({
+        type: "getAll",
+        payload: res,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
-
-  //sorting
   useEffect(() => {
-    if (sortBy == "nameaz") {
-      let a = pizzaList.sort((a, b) => (a.name < b.name ? -1 : 1));
-      setPizzaList([...a]);
-    }
-    if (sortBy == "nameza") {
-      let a = pizzaList.sort((a, b) => (a.name > b.name ? -1 : 1));
-      setPizzaList([...a]);
-    }
-    if (sortBy == "price1") {
-      let a = pizzaList.sort((a, b) => (a.price[0] < b.price[0] ? -1 : 1));
-      setPizzaList([...a]);
-    }
-    if (sortBy == "price2") {
-      let a = pizzaList.sort((a, b) => (a.price[0] > b.price[0] ? -1 : 1));
-      setPizzaList([...a]);
-    }
-  }, [sortBy]);
+    getData(sortBy,searchValue,page);
+  }, [page,sortBy]);
 
-  //searching
-  useEffect(() => {
-    const debounce = setTimeout(() => {
-      if (searchValue == '') {
-        let a = handlePagi();
-        setPizzas(a);
-      } else {
-        let result = pizzaList.filter((item) => item.name.includes(searchValue));
-        setPizzas(result);
-      }
-    }, 1000);
-    return () => clearTimeout(debounce);
-  }, [searchValue]);
+  useEffect(()=>{
+    const id = setTimeout(()=>{
+      getData(sortBy,searchValue,page);
+    },2000)
+    return ()=>clearTimeout(id);
+  },[searchValue])
 
-  function handleAddPizza(e) {
+
+  async function handleAddPizza(e) {
     e.preventDefault();
     if (isAdding) {
-      dispatch({
-        type: 'addPizza',
-        payload: {
-          name: addObject.name,
-          ingredients: addObject.ingredients,
-          price: [Number(...addObject.price1)].concat(Number(addObject.price2)).concat(Number(addObject.price3)),
-          photoName: addObject.photoName,
-          count: Number(addObject.count),
-        }
-      })
+      const response = await fetch(
+        "http://localhost:4000/api/v1/pizza/create",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name: addObject.name,
+            ingredients: addObject.ingredients,
+            price: [Number(...addObject.price1)]
+              .concat(Number(addObject.price2))
+              .concat(Number(addObject.price3)),
+            photoName: addObject.photoName,
+            count: Number(addObject.count),
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      response.json().then((data) =>
+        dispatch({
+          type: "addPizza",
+          payload: data,
+        }),
+      );
     } else if (isModify) {
-      dispatch({
-        type: 'modifyPizza',
-        payload: {
-          id: addObject.id,
-          name: addObject.name,
-          ingredients: addObject.ingredients,
-          price: [Number(...addObject.price1)].concat(Number(addObject.price2)).concat(Number(addObject.price3)),
-          photoName: addObject.photoName,
-          count: Number(addObject.count),
-        }
-      })
+      try {
+        const response = await fetch(
+          `http://localhost:4000/api/v1/pizza/update/${addObject.id}`,
+          {
+            method: "PATCH",
+            body: JSON.stringify({
+              name: addObject?.name,
+              ingredients: addObject?.ingredients,
+              price:
+                addObject?.price1 &&
+                [Number(addObject?.price1)]
+                  .concat(Number(addObject?.price2))
+                  .concat(Number(addObject?.price3)),
+              photoName: addObject?.photoName,
+              count: addObject?.count && Number(addObject?.count),
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+        const data = await response.json();
+        dispatch({
+          type: "modifyPizza",
+          payload: data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
-    handleAdding('close', false);
+    handleAdding("close", false);
   }
 
   function handleAdding(option, value, id) {
-    if (option == 'add') {
+    if (option == "add") {
       setIsAdding(value);
-    } else if (option == 'modify') {
+    } else if (option == "modify") {
       if (id) {
         setAddObject({ ...addObject, id });
       }
       setIsModify(value);
-    } else if (option == 'close') {
+    } else if (option == "close") {
       setIsAdding(value);
       setIsModify(value);
     }
     if (value == false) {
-      setAddObject({})
+      setAddObject({});
     }
   }
 
-  function handleImage(e) {
-    let a = URL.createObjectURL(e.target.files[0]);
-    setAddObject({ ...addObject, photoName: a })
+  function handleImage(obj) {
+    setAddObject({ ...addObject, photoName: obj.base64 });
   }
+
+  function handleSearchValue(value){
+    setSearchValue(value);
+  }
+
   return (
     <>
-      <div className="menu p-10 relative">
+      <div className="menu relative p-10">
         <h2 className="title mt-20 inline-block">Our menu</h2>
-        <div className="flex justify-center items-center mt-20 w-full">
+        <div className="mt-20 flex w-full items-center justify-center">
           <div>
             <label for="cars">Sort by:</label>
             <select
-              className="mr-10 ml-10  h-16 rounded-lg p-4 text-gray-400 outline-none hover:cursor-pointer"
+              className="ml-10 mr-10  h-16 rounded-lg p-4 text-gray-400 outline-none hover:cursor-pointer"
               name="cars"
               id="cars"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <option value="nameaz">Name(A→Z)</option>
-              <option value="nameza">Name(Z→A)</option>
-              <option value="price1">Price(Lowest to Highest)</option>
-              <option value="price2">Price(Highest to Lowest)</option>
+              <option value="name">Name(A→Z)</option>
+              <option value="-name">Name(Z→A)</option>
+              <option value="price">Price(Lowest to Highest)</option>
+              <option value="-price">Price(Highest to Lowest)</option>
             </select>
           </div>
 
           <input
-            className="mr-10 h-16 rounded-lg p-4 outline-none hover:cursor-pointer inline-block"
+            className="mr-10 inline-block h-16 rounded-lg p-4 outline-none hover:cursor-pointer"
             value={searchValue}
             placeholder="Search something..."
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={(e) => handleSearchValue(e.target.value)}
           />
-          <Button click={() => handleAdding('add', true)} className="btnOrder">Add new pizza</Button>
-
+          <Button click={() => handleAdding("add", true)} className="btnOrder">
+            Add new pizza
+          </Button>
         </div>
         <p>
           Authentic Italian cuisine. 6 creative dishes to choose from. All from
@@ -156,10 +177,10 @@ export default function Menu() {
           </div>
         ) : (
           <>
-            {pizzas.length > 0 && (
+            {pizzaData.length > 0 && (
               <>
                 <ul className="pizzas">
-                  {pizzas.map((pizza) => (
+                  {pizzaData.map((pizza) => (
                     <>
                       <PizzaCard
                         handleAdding={handleAdding}
@@ -177,28 +198,36 @@ export default function Menu() {
         <Pagination
           itemPerPage={itemPerPage}
           page={page}
-          handlePage={handlePageParent}
-          total={pizzaList.length}
+          handlePage={setPage}
+          total={totalCount}
         ></Pagination>
-        {(isAdding || isModify) &&
-          <div className="z-50 fixed h-svh w-4/5 bg-white p-20 overflow-scroll top-16">
-            <Button click={() => handleAdding('close', false)}>X</Button>
+        {(isAdding || isModify) && (
+          <div className="fixed top-16 z-50 h-svh w-4/5 overflow-scroll bg-white p-20">
+            <Button click={() => handleAdding("close", false)}>X</Button>
             <form>
               <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
-                  <h2 className="text-2xl font-semibold leading-7 text-gray-900">Infomation</h2>
+                  <h2 className="text-2xl font-semibold leading-7 text-gray-900">
+                    Infomation
+                  </h2>
                   <p className="mt-1 text-lg leading-6 text-gray-600">
-                    This information will be displayed publicly so be careful what you share.
+                    This information will be displayed publicly so be careful
+                    what you share.
                   </p>
 
                   <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div className="col-span-full">
-                      <label htmlFor="name" className="block text-lg font-medium leading-6 text-gray-900">
+                      <label
+                        htmlFor="name"
+                        className="block text-lg font-medium leading-6 text-gray-900"
+                      >
                         Name
                       </label>
                       <div className="mt-2">
                         <input
-                          onChange={(e) => setAddObject({ ...addObject, name: e.target.value })}
+                          onChange={(e) =>
+                            setAddObject({ ...addObject, name: e.target.value })
+                          }
                           type="text"
                           name="name"
                           id="name"
@@ -208,28 +237,46 @@ export default function Menu() {
                       </div>
                     </div>
                     <div className="col-span-full">
-                      <label htmlFor="ingredients" className="block text-lg font-medium leading-6 text-gray-900">
+                      <label
+                        htmlFor="ingredients"
+                        className="block text-lg font-medium leading-6 text-gray-900"
+                      >
                         Ingredients
                       </label>
                       <div className="mt-2">
                         <textarea
-                          onChange={(e) => setAddObject({ ...addObject, ingredients: e.target.value })}
+                          onChange={(e) =>
+                            setAddObject({
+                              ...addObject,
+                              ingredients: e.target.value,
+                            })
+                          }
                           id="ingredients"
                           name="ingredients"
                           rows={2}
-                          className="block text-xl w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6"
-                          defaultValue={''}
+                          className="block w-full rounded-md border-0 p-1.5 text-xl text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6"
+                          defaultValue={""}
                         />
                       </div>
-                      <p className="mt-3 text-lg leading-6 text-gray-600">Write a few sentences about yourself.</p>
+                      <p className="mt-3 text-lg leading-6 text-gray-600">
+                        Write a few sentences about yourself.
+                      </p>
                     </div>
                     <div className="sm:col-span-2 sm:col-start-1">
-                      <label htmlFor="price1" className="block text-sm font-medium leading-6 text-gray-900">
+                      <label
+                        htmlFor="price1"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
                         Price 1
                       </label>
                       <div className="mt-2">
                         <input
-                          onChange={(e) => setAddObject({ ...addObject, price1: e.target.value })}
+                          onChange={(e) =>
+                            setAddObject({
+                              ...addObject,
+                              price1: e.target.value,
+                            })
+                          }
                           type="number"
                           name="price1"
                           id="price1"
@@ -240,12 +287,20 @@ export default function Menu() {
                     </div>
 
                     <div className="sm:col-span-2">
-                      <label htmlFor="price2" className="block text-sm font-medium leading-6 text-gray-900">
+                      <label
+                        htmlFor="price2"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
                         Price
                       </label>
                       <div className="mt-2">
                         <input
-                          onChange={(e) => setAddObject({ ...addObject, price2: e.target.value })}
+                          onChange={(e) =>
+                            setAddObject({
+                              ...addObject,
+                              price2: e.target.value,
+                            })
+                          }
                           type="number"
                           name="price2"
                           id="price2"
@@ -256,12 +311,20 @@ export default function Menu() {
                     </div>
 
                     <div className="sm:col-span-2">
-                      <label htmlFor="price3" className="block text-sm font-medium leading-6 text-gray-900">
+                      <label
+                        htmlFor="price3"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
                         Price 3
                       </label>
                       <div className="mt-2">
                         <input
-                          onChange={(e) => setAddObject({ ...addObject, price3: e.target.value })}
+                          onChange={(e) =>
+                            setAddObject({
+                              ...addObject,
+                              price3: e.target.value,
+                            })
+                          }
                           type="number"
                           name="price3"
                           id="price3"
@@ -272,12 +335,19 @@ export default function Menu() {
                     </div>
 
                     <div className="sm:col-span-2 sm:col-start-1">
-                      <label htmlFor="count" className="block text-sm font-medium leading-6 text-gray-900">
+                      <label
+                        htmlFor="count"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
                         Count
                       </label>
                       <div className="mt-2">
                         <input
-                          onChange={(e) => setAddObject(prev => { return { ...prev, count: e.target.value } })}
+                          onChange={(e) =>
+                            setAddObject((prev) => {
+                              return { ...prev, count: e.target.value };
+                            })
+                          }
                           type="number"
                           name="count"
                           id="count"
@@ -288,7 +358,10 @@ export default function Menu() {
                     </div>
 
                     <div className="col-span-full">
-                      <label htmlFor="cover-photo" className="block text-lg font-medium leading-6 text-gray-900">
+                      <label
+                        htmlFor="cover-photo"
+                        className="block text-lg font-medium leading-6 text-gray-900"
+                      >
                         Cover photo
                       </label>
                       <div className="mt-2 rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
@@ -297,18 +370,35 @@ export default function Menu() {
                           <div className="mt-4 text-lg leading-6 text-gray-600">
                             <label
                               htmlFor="file-upload"
-                              className=" w-full h-3/6 relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                              className=" relative h-3/6 w-full cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                             >
-                              <span>Upload a file</span>
-                              <input onChange={(e) => handleImage(e)} id="file-upload" name="file-upload" type="file" className="sr-only w-full h-full mb-5" />
-
+                              <span>Upload a image</span>
+                              {/*<input
+                                onChange={(e) => handleImage(e)}
+                                id="file-upload"
+                                name="file-upload"
+                                type="file"
+                                className="sr-only mb-5 h-full w-full"
+                              />*/}
+                              <FileBase
+                                type="file"
+                                multiple={false}
+                                onDone={({ base64 }) => handleImage({ base64 })}
+                              />
                             </label>
-                            {!addObject.photoName ?
-                              <p className="pl-1">or drag and drop</p> :
-                              <img className="w-full h-[400px] object-cover" src={addObject?.photoName} alt="" />
-                            }
+                            {!addObject.photoName ? (
+                              <p className="pl-1">or drag and drop</p>
+                            ) : (
+                              <img
+                                className="h-[400px] w-full object-cover"
+                                src={addObject?.photoName}
+                                alt=""
+                              />
+                            )}
                           </div>
-                          <p className="text-xs leading-5 text-gray-600 mt-5">PNG, JPG, GIF up to 10MB</p>
+                          <p className="mt-5 text-xs leading-5 text-gray-600">
+                            PNG, JPG, GIF up to 10MB
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -317,7 +407,11 @@ export default function Menu() {
               </div>
 
               <div className="mt-6 flex items-center justify-end gap-x-6">
-                <button onClick={() => handleAdding('close', false)} type="button" className=" text-lg font-semibold leading-6 text-gray-900">
+                <button
+                  onClick={() => handleAdding("close", false)}
+                  type="button"
+                  className=" text-lg font-semibold leading-6 text-gray-900"
+                >
                   Cancel
                 </button>
                 <button
@@ -330,7 +424,7 @@ export default function Menu() {
             </form>
             <div></div>
           </div>
-        }
+        )}
       </div>
     </>
   );
