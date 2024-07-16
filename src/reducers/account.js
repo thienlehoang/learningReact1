@@ -1,31 +1,19 @@
-import { Navigate, redirect } from "react-router-dom";
-import { users } from "../data";
-const userModel = {
-  id:undefined,
-  cartId:undefined,
-  listListId:undefined,
-  cate:undefined, // 0 : user , 1 :admin
-  firstName:undefined,
-  email:undefined,
-  password:undefined,
-  isLogined:false
-};
-
-export const userReducer = (state =userModel , action) => {
+export const userReducer = (state = {}, action) => {
   switch (action.type) {
     case "login": {
-      const result = users.find(
-        (item) =>
-          (item.email == action.payload.email &&
-          item.password == action.payload.password)
-      );
-      return {...result, isLogined: true};
+      localStorage.setItem("accessToken", action.payload.token);
+      localStorage.setItem("user", JSON.stringify(action.payload.data));
+      return { ...action.payload.data, isLogined: true };
     }
     case "signup": {
-      if (action.payload == "1") {
-        redirect("/home");
-        return "logined";
-      } else return "login";
+      localStorage.setItem("accessToken", action.payload.token);
+      localStorage.setItem("user", JSON.stringify(action.payload.data));
+      return { ...action.payload.data, isLogined: true };
+    }
+    case "logout": {
+      localStorage.removeItem("user");
+      localStorage.removeItem("accessToken");
+      return {};
     }
     default:
       return state;

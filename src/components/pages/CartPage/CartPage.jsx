@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./CartPage.css";
@@ -8,28 +8,58 @@ import PizzaLikeList from "../../LikeList/Likelist";
 import { Link } from "react-router-dom";
 import Pagination from "../../../common/Pagination/Pagination";
 import Header from "../../../common/Header/Header";
+import { updateCart } from "../../../actions/cartActions";
 
 function CartPage() {
-  const cart = useSelector((state) => state.cartlist);
-  var totalPrice = cart.reduce((acc, cur) => {
-    return acc + cur.price * cur.count;
-  }, 0);
+  const dispatch = useDispatch();
+  const cartSelector = useSelector((state) => state.cartlist);
+  const [cart, setCart] = useState(cartSelector);
+  const [totalPrice, setTotalPrice] = useState(0);
+  useEffect(() => {
+    setCart(cartSelector);
+  }, [cartSelector]);
+  useEffect(() => {
+    setTotalPrice(
+      cart.reduce((acc, cur) => {
+        return acc + cur.price * cur.quantity;
+      }, 0),
+    );
+  }, [cart]);
   //handlePagi
   const itemPerPage = 2;
   const [page, setPage] = useState(1);
-  const cartRender = cart.slice(
-    (page - 1) * itemPerPage,
-    (page - 1) * itemPerPage + itemPerPage,
-  );
-
-  if (cart.length <= Number(page) * itemPerPage - itemPerPage) {
-    setPage(page - 1);
-  }
   function handlePageParent(page) {
     setPage(page);
   }
 
-  const dispatch = useDispatch();
+  const handleCart = (index, action) => {
+    if (action == "plus") {
+      setCart((prev) => {
+        return prev.map((item, ind) => {
+          if (ind == index) {
+            return { ...item, quantity: item.quantity + 1 };
+          } else {
+            return item;
+          }
+        });
+      });
+    } else if (action == "minus") {
+      setCart((prev) => {
+        return prev.map((item, ind) => {
+          if (ind == index) {
+            return { ...item, quantity: item.quantity - 1 };
+          } else {
+            return item;
+          }
+        });
+      });
+    }
+  };
+
+  const handleUpdateCart = () => {
+    dispatch(updateCart(cart));
+  };
+
   return (
     <>
       <Header></Header>
@@ -45,7 +75,7 @@ function CartPage() {
               <th className="c-20">Quantity</th>
               <th className="c-10">Total</th>
             </tr>
-            {cartRender.map((item) => (
+            {cart.map((item, index) => (
               <tr>
                 <td className="c-10">
                   <GoTrash
@@ -63,8 +93,16 @@ function CartPage() {
                 </td>
                 <td className="c-30">{item.name}</td>
                 <td className="c-10">{item.price}$</td>
-                <td className="c-20">{item.count}</td>
-                <td className="c-10">{item.count * item.price}$</td>
+                <td className="c-20">
+                  <div className="flex h-10 w-10 items-center justify-center">
+                    <button onClick={() => handleCart(index, "minus")}>
+                      -
+                    </button>
+                    {item.quantity}
+                    <button onClick={() => handleCart(index, "plus")}>+</button>
+                  </div>
+                </td>
+                <td className="c-10">{item.quantity * item.price}$</td>
               </tr>
             ))}
           </table>
@@ -80,7 +118,9 @@ function CartPage() {
                 <Button className="btnOrder">Apply Coupon</Button>
               </div>
               <div className="coupon__right">
-                <Button className="btnOrder">Update Cart</Button>
+                <Button className="btnOrder" click={() => handleUpdateCart()}>
+                  Update Cart
+                </Button>
               </div>
             </tr>
           </table>

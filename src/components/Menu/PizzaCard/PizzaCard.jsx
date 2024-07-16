@@ -11,8 +11,8 @@ export default function PizzaCard(props) {
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
   const likelist = useSelector((state) => state.likelist);
-  const { cate, isLogined } = useSelector((state) => state.login);
   const dispatch = useDispatch();
+  const [user,setUser]=useState(JSON.parse(localStorage.getItem('user')));
   useEffect(() => {
     setLike(likelist.find((item) => item._idPizza == info._id));
   }, [likelist]);
@@ -71,7 +71,7 @@ export default function PizzaCard(props) {
           <p>{info?.ingredients}</p>
           <div className="flex items-center justify-between">
             <div className="w-fit">{info?.price[0]}</div>
-            {isLogined && cate === 1 && (
+            {user && user.role === 'admin' && (
               <div className="flex w-fit">
                 <MdOutlineEdit
                   onClick={() =>

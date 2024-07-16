@@ -12,12 +12,6 @@ export const pizzaReducer = (state = [], action) => {
       // sau nafy co the su dung create new id cura nodejs
       return action?.payload.data;
     }
-    case "getdatqa": {
-      //payload.sortby && payload.search return
-      //payload.sortby return
-      //payload.searxh return
-      //return list
-    }
     case "getAll": {
       return action.payload.data;
     }

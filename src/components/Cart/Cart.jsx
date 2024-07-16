@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 
 export default function Cart({ visible }) {
   const cart = useSelector((state) => state.cartlist);
-  const dispatch = useDispatch();
   return (
     <div className={"cart " + (visible ? "visible" : "")}>
       <h1>Cart</h1>

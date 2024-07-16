@@ -38,12 +38,6 @@ function HomePage() {
     el.id = "marker";
   },[lat,lng,zoom]);
 
-
-  //useEffect(()=>{
-  //  if(!user.email){
-  //    navigate('/');
-  //  }
-  //},[])
   return (
     <>
     <Header></Header>

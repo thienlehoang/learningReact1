@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { Provider } from "react-redux";
 import { allReducers } from "./reducers";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import {
   createBrowserRouter,
   BrowserRouter as Router,
@@ -20,8 +20,11 @@ import DetailPage from "./components/pages/DetailPage/DetailPage";
 import MenuPage from "./components/pages/MenuPage/MenuPage";
 import LoginPage from "./components/pages/LoginPage/LoginPage";
 import AboutUsPage from "./components/pages/AboutUsPage/AboutUsPage";
+import {thunk} from "redux-thunk";
 
-const store = createStore(allReducers);
+// create store with redux and thunk
+const store = createStore(allReducers, applyMiddleware(thunk));
+//const store = createStore(allReducers);
 const router = createBrowserRouter([
   {
     path: "/",
