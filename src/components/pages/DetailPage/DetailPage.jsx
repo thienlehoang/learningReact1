@@ -5,6 +5,7 @@ import "./DetailPage.css";
 import Button from "../../../common/Button/Button";
 import { useDispatch } from "react-redux";
 import Header from "../../../common/Header/Header";
+import { addToCart } from "../../../actions/cartActions";
 
 function DetailPage() {
   const { id } = useParams();
@@ -30,11 +31,8 @@ function DetailPage() {
     getData(id);
   }, []);
   function handleAddtoCart() {
-    dispatch({
-      type: "addcart",
-      payload: { ...info, price: info.price[price] },
-    });
-    navigate('/cart')
+    dispatch(addToCart({pizzaId: id,quantity:1,price:info?.price[price]}))
+    //navigate('/cart')
   }
 
   //move to menu screen when press ESC
@@ -46,12 +44,12 @@ function DetailPage() {
     }
     window.addEventListener('keydown',(e)=>handleEscape(e))
     return ()=>{
+      //remove when component unmount
       window.removeEventListener('keydown',handleEscape)
     }
   },[])
   return (
     <>
-      <Header></Header>
       <div className="contianer py-20">
         <div className="detail">
           <div className="detail__left">

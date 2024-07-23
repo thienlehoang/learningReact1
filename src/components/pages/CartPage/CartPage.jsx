@@ -2,17 +2,19 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./CartPage.css";
-import { GoTrash } from "react-icons/go";
+import { GoTrash, GoPlusCircle } from "react-icons/go";
 import Button from "../../../common/Button/Button";
 import PizzaLikeList from "../../LikeList/Likelist";
 import { Link } from "react-router-dom";
 import Pagination from "../../../common/Pagination/Pagination";
 import Header from "../../../common/Header/Header";
 import { updateCart } from "../../../actions/cartActions";
+import { AiOutlineMinusCircle } from "react-icons/ai";
 
 function CartPage() {
   const dispatch = useDispatch();
   const cartSelector = useSelector((state) => state.cartlist);
+  const [user,setUser]=useState(JSON.parse(localStorage.getItem('user')));
   const [cart, setCart] = useState(cartSelector);
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
@@ -53,16 +55,22 @@ function CartPage() {
           }
         });
       });
+    } else if (action == "delete") {
+      setCart((prev) => {
+        return prev.filter((item, ind) => {
+          return ind != index;
+        });
+      });
     }
+
   };
 
-  const handleUpdateCart = () => {
-    dispatch(updateCart(cart));
+  const handleUpdateCart = async () => {
+    await dispatch(updateCart(cart));
   };
 
   return (
     <>
-      <Header></Header>
       <div className="container py-20">
         <h2 className="title">Cart</h2>
         <div className="cart__wrap">
@@ -79,12 +87,7 @@ function CartPage() {
               <tr>
                 <td className="c-10">
                   <GoTrash
-                    onClick={() =>
-                      dispatch({
-                        type: "deletecart",
-                        id: item.id,
-                      })
-                    }
+                    onClick={() => handleCart(index, "delete")}
                     className="icon"
                   ></GoTrash>
                 </td>
@@ -94,12 +97,16 @@ function CartPage() {
                 <td className="c-30">{item.name}</td>
                 <td className="c-10">{item.price}$</td>
                 <td className="c-20">
-                  <div className="flex h-10 w-10 items-center justify-center">
-                    <button onClick={() => handleCart(index, "minus")}>
-                      -
-                    </button>
-                    {item.quantity}
-                    <button onClick={() => handleCart(index, "plus")}>+</button>
+                  <div className="flex h-10 w-10 w-full items-center justify-center">
+                    <AiOutlineMinusCircle
+                      onClick={() => handleCart(index, "minus")}
+                      className="icon-medium"
+                    ></AiOutlineMinusCircle>
+                    <span className="mx-2">{item?.quantity}</span>
+                    <GoPlusCircle
+                      onClick={() => handleCart(index, "plus")}
+                      className="icon-medium"
+                    ></GoPlusCircle>
                   </div>
                 </td>
                 <td className="c-10">{item.quantity * item.price}$</td>
@@ -143,7 +150,7 @@ function CartPage() {
             className="btnOrder"
             style={{ display: "block", marginTop: "1rem", marginLeft: "auto" }}
           >
-            <Link to="/checkout">Proceed to Checkout</Link>
+            <Link to={`/${user?._id}/checkout`}>Proceed to Checkout</Link>
           </Button>
         </div>
 

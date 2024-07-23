@@ -41,13 +41,13 @@ export const signUp = (formSignUp) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     const res = await api.logout();
+    dispatch({
+      type: "logout",
+      payload: res,
+    });
     if (res.status == "Error") {
       return { error: res.message };
     } else {
-      dispatch({
-        type: "logout",
-        payload: res,
-      });
       return { success: true, user:{} };
     }
   } catch (error) {

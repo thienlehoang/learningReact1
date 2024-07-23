@@ -31,9 +31,7 @@ function CartItem({ item }) {
       <li className="cart__item">
         <div className="cart__item-top">
           <div className="cart__item-count">
-            <AiOutlineMinusCircle onClick={()=>handleCount('minus')} className="icon-medium"></AiOutlineMinusCircle>
             <span>{item?.quantity}</span>
-            <GoPlusCircle onClick={()=>handleCount('plus')} className="icon-medium"></GoPlusCircle>
           </div>
           <div className="cart__item-name">{item?.name}</div>
           <div>{item?.price}$</div>

@@ -19,10 +19,8 @@ export default function Header() {
   }
   async function handleLogout(){
     const res = await dispatch(logout());
-    if(res.success){
-      setUser(res.user);
-      navigate("/login");
-    } 
+    setUser(res.user);
+    navigate("/login");
   }
 
   useEffect(() => {

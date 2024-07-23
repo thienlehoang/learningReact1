@@ -21,6 +21,7 @@ import MenuPage from "./components/pages/MenuPage/MenuPage";
 import LoginPage from "./components/pages/LoginPage/LoginPage";
 import AboutUsPage from "./components/pages/AboutUsPage/AboutUsPage";
 import {thunk} from "redux-thunk";
+import CheckoutPage from "./components/pages/CheckoutPage/CheckoutPage";
 
 // create store with redux and thunk
 const store = createStore(allReducers, applyMiddleware(thunk));
@@ -58,6 +59,14 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <AboutUsPage />,
+      },
+      {
+        path: "contact",
+        element: <AboutUsPage />,
+      },
+      {
+        path: "/:userId/checkout",
+        element: <CheckoutPage />,
       },
     ],
   },

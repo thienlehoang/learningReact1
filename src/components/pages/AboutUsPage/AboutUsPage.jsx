@@ -7,7 +7,6 @@ function AboutUsPage() {
   return (
     <>
       <div className="">
-        <Header />
         <div className="about z-10 py-20 text-center text-black text-white">
           <div className="title ml-auto mr-auto mt-20 text-black">About us</div>
           <div className="mx-auto mt-20 flex w-4/5 justify-between">
