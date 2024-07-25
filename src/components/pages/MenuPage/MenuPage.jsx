@@ -6,7 +6,6 @@ import Footer from './../../../common/Footer/Footer';
 function MenuPage() {
   return (
     <div className="container py-20">
-      <Header></Header>
       <Menu></Menu>
       <Footer></Footer>
     </div>

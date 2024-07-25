@@ -38,15 +38,8 @@ function HomePage() {
     el.id = "marker";
   },[lat,lng,zoom]);
 
-
-  //useEffect(()=>{
-  //  if(!user.email){
-  //    navigate('/');
-  //  }
-  //},[])
   return (
     <>
-    <Header></Header>
     <div className="homepage z-10 bg-black text-white py-20">
       <div className=" intro relative -z-10 z-10 flex  w-full flex-col items-center bg-[url('/public/assets/homebackground.png')] bg-cover bg-no-repeat px-16 py-40 text-2xl text-white">
         <div className="z-10 mb-8 text-7xl font-bold">Fast React Pizza Co</div>

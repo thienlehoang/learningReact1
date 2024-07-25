@@ -19,9 +19,10 @@ export default function Menu() {
   const [isAdding, setIsAdding] = useState(false);
   const [isModify, setIsModify] = useState(false);
   const [addObject, setAddObject] = useState({});
+  const [user,setUser]=useState(JSON.parse(localStorage.getItem('user')));
 
   const itemPerPage = 4;
-  async function getData(sort,search,page) {
+  async function getData(sort, search, page) {
     try {
       setIsLoading(true);
       const data = await fetch(
@@ -39,16 +40,15 @@ export default function Menu() {
     }
   }
   useEffect(() => {
-    getData(sortBy,searchValue,page);
-  }, [page,sortBy]);
+    getData(sortBy, searchValue, page);
+  }, [page, sortBy]);
 
-  useEffect(()=>{
-    const id = setTimeout(()=>{
-      getData(sortBy,searchValue,page);
-    },2000)
-    return ()=>clearTimeout(id);
-  },[searchValue])
-
+  useEffect(() => {
+    const id = setTimeout(() => {
+      getData(sortBy, searchValue, page);
+    }, 2000);
+    return () => clearTimeout(id);
+  }, [searchValue]);
 
   async function handleAddPizza(e) {
     e.preventDefault();
@@ -96,14 +96,11 @@ export default function Menu() {
             }),
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
           },
         );
-        const data = await response.json();
-        dispatch({
-          type: "modifyPizza",
-          payload: data,
-        });
+        getData(sortBy, searchValue, page);
       } catch (error) {
         console.log(error);
       }
@@ -132,7 +129,7 @@ export default function Menu() {
     setAddObject({ ...addObject, photoName: obj.base64 });
   }
 
-  function handleSearchValue(value){
+  function handleSearchValue(value) {
     setSearchValue(value);
   }
 
@@ -163,9 +160,14 @@ export default function Menu() {
             placeholder="Search something..."
             onChange={(e) => handleSearchValue(e.target.value)}
           />
-          <Button click={() => handleAdding("add", true)} className="btnOrder">
-            Add new pizza
-          </Button>
+          {user.role == "admin" && (
+            <Button
+              click={() => handleAdding("add", true)}
+              className="btnOrder"
+            >
+              Add new pizza
+            </Button>
+          )}
         </div>
         <p>
           Authentic Italian cuisine. 6 creative dishes to choose from. All from

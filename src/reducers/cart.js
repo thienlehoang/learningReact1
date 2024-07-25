@@ -1,34 +1,17 @@
 import { cart } from "../data";
 
-export const cartReducer = (state = cart, action) => {
+export const cartReducer = (state = [], action) => {
   switch (action.type) {
-    case "addcart": {
-      if (!state.find((item) => item.id == action.payload.id)) {
-        // neu chua co trong likelist
-        return [...state, { ...action.payload, count: 1 }];
-      } else {
-        // neu da co trong likelist = > count +1 
-        return state.map((item) => {
-          if (item.id == action.payload.id) {
-            return { ...item, count: item.count + 1 };
-          } else return item;
-        });
-      }
+    case "getCart": {
+      return [...action.payload];
     }
-    case "updatecart": {
-      let newArray = [];
-      newArray = state.map((item, index) => {
-        if (item.id !== action.item.id) {
-          return item;
-        }
-        return {
-          ...item,
-          ...action.item,
-        };
-      });
-      return newArray;
+    case "addToCart": {
+      return [...action.payload];
     }
-    case "deletecart": {
+    case "updateCart": {
+      return [...action.payload];
+    }
+    case "deleteCart": {
       return state.filter((item) => item.id != action.id);
     }
     default:

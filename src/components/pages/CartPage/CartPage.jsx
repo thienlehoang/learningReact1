@@ -1,38 +1,76 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./CartPage.css";
-import { GoTrash } from "react-icons/go";
+import { GoTrash, GoPlusCircle } from "react-icons/go";
 import Button from "../../../common/Button/Button";
 import PizzaLikeList from "../../LikeList/Likelist";
 import { Link } from "react-router-dom";
 import Pagination from "../../../common/Pagination/Pagination";
 import Header from "../../../common/Header/Header";
+import { updateCart } from "../../../actions/cartActions";
+import { AiOutlineMinusCircle } from "react-icons/ai";
 
 function CartPage() {
-  const cart = useSelector((state) => state.cartlist);
-  var totalPrice = cart.reduce((acc, cur) => {
-    return acc + cur.price * cur.count;
-  }, 0);
+  const dispatch = useDispatch();
+  const cartSelector = useSelector((state) => state.cartlist);
+  const [user,setUser]=useState(JSON.parse(localStorage.getItem('user')));
+  const [cart, setCart] = useState(cartSelector);
+  const [totalPrice, setTotalPrice] = useState(0);
+  useEffect(() => {
+    setCart(cartSelector);
+  }, [cartSelector]);
+  useEffect(() => {
+    setTotalPrice(
+      cart.reduce((acc, cur) => {
+        return acc + cur.price * cur.quantity;
+      }, 0),
+    );
+  }, [cart]);
   //handlePagi
   const itemPerPage = 2;
   const [page, setPage] = useState(1);
-  const cartRender = cart.slice(
-    (page - 1) * itemPerPage,
-    (page - 1) * itemPerPage + itemPerPage,
-  );
-
-  if (cart.length <= Number(page) * itemPerPage - itemPerPage) {
-    setPage(page - 1);
-  }
   function handlePageParent(page) {
     setPage(page);
   }
 
-  const dispatch = useDispatch();
+  const handleCart = (index, action) => {
+    if (action == "plus") {
+      setCart((prev) => {
+        return prev.map((item, ind) => {
+          if (ind == index) {
+            return { ...item, quantity: item.quantity + 1 };
+          } else {
+            return item;
+          }
+        });
+      });
+    } else if (action == "minus") {
+      setCart((prev) => {
+        return prev.map((item, ind) => {
+          if (ind == index) {
+            return { ...item, quantity: item.quantity - 1 };
+          } else {
+            return item;
+          }
+        });
+      });
+    } else if (action == "delete") {
+      setCart((prev) => {
+        return prev.filter((item, ind) => {
+          return ind != index;
+        });
+      });
+    }
+
+  };
+
+  const handleUpdateCart = async () => {
+    await dispatch(updateCart(cart));
+  };
+
   return (
     <>
-      <Header></Header>
       <div className="container py-20">
         <h2 className="title">Cart</h2>
         <div className="cart__wrap">
@@ -45,16 +83,11 @@ function CartPage() {
               <th className="c-20">Quantity</th>
               <th className="c-10">Total</th>
             </tr>
-            {cartRender.map((item) => (
+            {cart.map((item, index) => (
               <tr>
                 <td className="c-10">
                   <GoTrash
-                    onClick={() =>
-                      dispatch({
-                        type: "deletecart",
-                        id: item.id,
-                      })
-                    }
+                    onClick={() => handleCart(index, "delete")}
                     className="icon"
                   ></GoTrash>
                 </td>
@@ -63,8 +96,20 @@ function CartPage() {
                 </td>
                 <td className="c-30">{item.name}</td>
                 <td className="c-10">{item.price}$</td>
-                <td className="c-20">{item.count}</td>
-                <td className="c-10">{item.count * item.price}$</td>
+                <td className="c-20">
+                  <div className="flex h-10 w-10 w-full items-center justify-center">
+                    <AiOutlineMinusCircle
+                      onClick={() => handleCart(index, "minus")}
+                      className="icon-medium"
+                    ></AiOutlineMinusCircle>
+                    <span className="mx-2">{item?.quantity}</span>
+                    <GoPlusCircle
+                      onClick={() => handleCart(index, "plus")}
+                      className="icon-medium"
+                    ></GoPlusCircle>
+                  </div>
+                </td>
+                <td className="c-10">{item.quantity * item.price}$</td>
               </tr>
             ))}
           </table>
@@ -80,7 +125,9 @@ function CartPage() {
                 <Button className="btnOrder">Apply Coupon</Button>
               </div>
               <div className="coupon__right">
-                <Button className="btnOrder">Update Cart</Button>
+                <Button className="btnOrder" click={() => handleUpdateCart()}>
+                  Update Cart
+                </Button>
               </div>
             </tr>
           </table>
@@ -103,7 +150,7 @@ function CartPage() {
             className="btnOrder"
             style={{ display: "block", marginTop: "1rem", marginLeft: "auto" }}
           >
-            <Link to="/checkout">Proceed to Checkout</Link>
+            <Link to={`/${user?._id}/checkout`}>Proceed to Checkout</Link>
           </Button>
         </div>
 
