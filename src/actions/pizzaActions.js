@@ -1,27 +1,27 @@
 import * as api from "../apis";
 
-export const getCart = () => async (dispatch) => {
+export const getAllPizza = (query) => async (dispatch) => {
   try {
     dispatch({
       type: "loading",
       payload: true,
     });
-    const res = await api.getCart();
+    const res = await api.getAllPizza(query);
     dispatch({
       type: "loading",
       payload: false,
     });
-    if(res.status === "Error") {
+    if (res.status === "Error") {
       return { error: res.message };
     }
     dispatch({
-      type: "getCart",
-      payload: res.data[0].cartList,
+      type: "getAll",
+      payload: res.data,
     });
     return {
       success: true,
-      data: res.data[0].cartList,
-    }
+      data: res.data,
+    };
   } catch (error) {
     console.log(error);
   }
@@ -29,43 +29,27 @@ export const getCart = () => async (dispatch) => {
 
 export const addToCart = (pizza) => async (dispatch) => {
   try {
-    dispatch({
-      type: "loading",
-      payload: true,
-    });
     const res = await api.addToCart(pizza);
-    dispatch({
-      type: "loading",
-      payload: false,
-    });
-    if(res.status === "Error") {
+    if (res.status === "Error") {
       return { error: res.message };
     }
     dispatch({
       type: "addToCart",
       payload: res.data.cartList,
-    })
+    });
     return {
       success: true,
       data: res.data.cartList,
-    }
+    };
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-export const updateCart = (listUpdate)=> async(dispatch) => {
+export const updateCart = (listUpdate) => async (dispatch) => {
   try {
-    dispatch({
-      type: "loading",
-      payload: true,
-    });
     const res = await api.updateCart(listUpdate);
-    dispatch({
-      type: "loading",
-      payload:false,
-    });
-    if(res.status === "Error") {
+    if (res.status === "Error") {
       return { error: res.message };
     }
     dispatch({
@@ -75,8 +59,8 @@ export const updateCart = (listUpdate)=> async(dispatch) => {
     return {
       success: true,
       data: res.data.cartList,
-    }
+    };
   } catch (error) {
     console.log(error);
   }
-} 
+};

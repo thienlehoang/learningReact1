@@ -1,19 +1,18 @@
 import { likeList } from "../data";
-export const likelistReducer=(state=likeList,action)=>{
-  switch(action.type){
-    case 'addlikelist':{
-      let idPizza=action.payload;
-      return [...state,{idPizza}];
+export const likelistReducer = (state = [], action) => {
+  switch (action.type) {
+    case "getLikeList": {
+      return [...action.payload];
     }
-    case 'deletelikelist':{
-      let newArray= state.filter((item)=>{
-        return item?.idPizza!=action.id;
-      })
-      return newArray;
+    case "addToLikeList": {
+      return [...action.payload];
+    }
+    case "deletelikelist": {
+      return [...action.payload];
     }
     default: {
       return state;
     }
   }
-}
-export default likelistReducer
+};
+export default likelistReducer;
