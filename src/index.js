@@ -29,7 +29,7 @@ const store = createStore(allReducers, applyMiddleware(thunk));
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+  element: <App />,
     children: [
       { path: "/", element: <Navigate to="/login" replace/>},
       {

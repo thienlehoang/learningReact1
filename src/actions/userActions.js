@@ -1,7 +1,15 @@
 import * as api from "../apis";
 export const signIn = (formSignIn) => async (dispatch) => {
   try {
+    dispatch({
+      type: "loading",
+      payload: true,
+    });
     const res = await api.signIn(formSignIn);
+    dispatch({
+      type: "loading",
+      payload: false,
+    });
     if (res.status === "Error") {
       // Handle error response
       return { error: res.message };
@@ -20,7 +28,15 @@ export const signIn = (formSignIn) => async (dispatch) => {
 
 export const signUp = (formSignUp) => async (dispatch) => {
   try {
+    dispatch({
+      type: "loading",
+      payload: true,
+    });
     const res = await api.signUp(formSignUp);
+    dispatch({
+      type: "loading",
+      payload: false,
+    });
     if (res.status == "Error") {
       return { error: res.message };
     } else {
@@ -44,7 +60,7 @@ export const logout = () => async (dispatch) => {
     dispatch({
       type: "logout",
       payload: res,
-    });
+  });
     if (res.status == "Error") {
       return { error: res.message };
     } else {

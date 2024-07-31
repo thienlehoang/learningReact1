@@ -6,6 +6,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { AiOutlineLike } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addToLikeList } from "../../../actions/likeListAction";
 export default function PizzaCard(props) {
   const { info, handleAdding } = props;
   const navigate = useNavigate();
@@ -14,15 +15,12 @@ export default function PizzaCard(props) {
   const dispatch = useDispatch();
   const [user,setUser]=useState(JSON.parse(localStorage.getItem('user')));
   useEffect(() => {
-    setLike(likelist.find((item) => item._idPizza == info._id));
+    setLike(likelist.find((item) => item.pizzaId == info._id));
   }, [likelist]);
   function handleLike(e) {
     e.preventDefault();
-    setLike((prev) => !prev);
-    dispatch({
-      type: "addlikelist",
-      payload: info._id,
-    });
+    //setLike((prev) => !prev);
+    dispatch(addToLikeList(info._id));
   }
   async function handleDelete(_id){
     fetch(`http://localhost:4000/api/v1/pizza/delete/${_id}`, {

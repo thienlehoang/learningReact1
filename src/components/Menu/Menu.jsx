@@ -7,40 +7,27 @@ import { usePagination } from "../../customhooks/usePagination";
 import Button from "../../common/Button/Button";
 import FileBase from "react-file-base64";
 import { json } from "react-router-dom";
+import { getAllPizza } from "../../actions/pizzaActions";
 
 export default function Menu() {
   const dispatch = useDispatch();
   const pizzaData = useSelector((state) => state.pizza);
-  const [totalCount, setTotalCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(5);
   const [sortBy, setSortBy] = useState("name");
   const [searchValue, setSearchValue] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [isModify, setIsModify] = useState(false);
   const [addObject, setAddObject] = useState({});
-  const [user,setUser]=useState(JSON.parse(localStorage.getItem('user')));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const itemPerPage = 4;
   async function getData(sort, search, page) {
-    try {
-      setIsLoading(true);
-      const data = await fetch(
-        `http://localhost:4000/api/v1/pizza/pizzaList?search=${search}&sort=${sort}&limit=${itemPerPage}&page=${page}`,
-      );
-      const res = await data.json();
-      setIsLoading(false);
-      setTotalCount(res.count);
-      dispatch({
-        type: "getAll",
-        payload: res,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await dispatch(getAllPizza({sort, search, page, itemPerPage}));
   }
   useEffect(() => {
     getData(sortBy, searchValue, page);
+    setTotalCount(pizzaData.length);
   }, [page, sortBy]);
 
   useEffect(() => {
@@ -173,30 +160,23 @@ export default function Menu() {
           Authentic Italian cuisine. 6 creative dishes to choose from. All from
           our stone oven, all organic, all delicious.
         </p>
-        {isLoading == true ? (
-          <div className="loader-container">
-            <div className="spinner"></div>
-          </div>
-        ) : (
+        {pizzaData.length > 0 && (
           <>
-            {pizzaData.length > 0 && (
-              <>
-                <ul className="pizzas">
-                  {pizzaData.map((pizza) => (
-                    <>
-                      <PizzaCard
-                        handleAdding={handleAdding}
-                        key={pizza?.id}
-                        className="pizza"
-                        info={pizza}
-                      ></PizzaCard>
-                    </>
-                  ))}
-                </ul>
-              </>
-            )}
+            <ul className="pizzas">
+              {pizzaData.map((pizza) => (
+                <>
+                  <PizzaCard
+                    handleAdding={handleAdding}
+                    key={pizza?.id}
+                    className="pizza"
+                    info={pizza}
+                  ></PizzaCard>
+                </>
+              ))}
+            </ul>
           </>
         )}
+
         <Pagination
           itemPerPage={itemPerPage}
           page={page}

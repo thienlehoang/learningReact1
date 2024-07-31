@@ -3,6 +3,7 @@ import { AiOutlineDislike } from "react-icons/ai";
 import { pizzaData } from "../../data";
 import { useSelector, useDispatch } from "react-redux";
 import Pagination from "../../common/Pagination/Pagination";
+import { getLikeList, deleteFromLikeList } from "../../actions/likeListAction";
 class pagihandle {
   constructor() {
 
@@ -15,6 +16,10 @@ export default function PizzaLikeList({ }) {
   //const [likedList, setLikeList] = useState(likeList);
   const dispatch = useDispatch();
   const likelist = useSelector((state) => state.likelist);
+
+  useEffect(()=>{
+    dispatch(getLikeList());
+  },[])
 
   //handlePagi
   const itemPerPage = 2;
@@ -31,10 +36,7 @@ export default function PizzaLikeList({ }) {
     setPage(page);
   }
   function handleLikeList(removeId) {
-    dispatch({
-      type: "deletelikelist",
-      id: removeId,
-    });
+    dispatch(deleteFromLikeList(removeId));
   }
   return (
     <>
@@ -42,22 +44,22 @@ export default function PizzaLikeList({ }) {
       {likelist.length > 0 ? (
         <>
           <ul className="pizzas">
-            {likeListRender.map((item) => (
+            {likelist.map((item) => (
               <>
                 <LikeItem
                   key={item.id}
-                  pizzaId={item.idPizza}
+                  info={item}
                   removeLike={handleLikeList}
                 ></LikeItem>
               </>
             ))}
           </ul>
-          <Pagination
+          {/*<Pagination
             itemPerPage={itemPerPage}
             page={page}
             handlePage={handlePageParent}
             total={likelist.length}
-          ></Pagination>
+          ></Pagination>*/}
         </>
       ) : (
         <div style={{ marginTop: "10px", fontStyle: "italic" }}>
@@ -68,17 +70,12 @@ export default function PizzaLikeList({ }) {
   );
 }
 
-export function LikeItem({ pizzaId, removeLike }) {
-  const [info, setInfo] = useState({});
+export function LikeItem({ info, removeLike }) {
   const [hover, setHover] = useState(false)
-  useEffect(() => {
-    let array = pizzaData.filter((pizza) => pizza.id == pizzaId);
-    setInfo(array[0]);
-  }, [pizzaId]);
 
   // có thể dispatch ngay tại đây để remove pizza. 
   function handleRemove() {
-    removeLike(pizzaId);
+    removeLike(info.pizzaId);
   }
   function handleEnter() {
     setHover(prev => !prev)
